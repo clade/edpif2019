@@ -1,0 +1,158 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Exercises on Fourier analysis &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exercises-on-fourier-analysis">
+<h1>Exercises on Fourier analysis<a class="headerlink" href="#exercises-on-fourier-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="simple-example-of-fourier-transform">
+<h2>Simple example of Fourier transform<a class="headerlink" href="#simple-example-of-fourier-transform" title="Permalink to this headline">¶</a></h2>
+<p>Plot the Fourier transform of <img class="math" src="_images/math/3f4b6d23b5f405752d8c7e65f1e920d0fe3f28c3.png" alt="1/(1+0.99\cos(2\pi t))"/> for frequency below 50 Hz.
+using the <cite>fft</cite> function of the module <cite>numpy.fft</cite>.</p>
+<ul class="simple">
+<li>Which sample rate do you use ?</li>
+<li>On which duration should you calculate f ?</li>
+<li>What happens if this duration is 10 time too long ?</li>
+<li>What happens if it is not a multiple of the period of the signal ?</li>
+</ul>
+</div>
+<div class="section" id="power-spectral-density">
+<h2>Power spectral density<a class="headerlink" href="#power-spectral-density" title="Permalink to this headline">¶</a></h2>
+<p>The power spectral density (PSD) is defined as the square of the modulus of the Fourier transform of a signal divided by the integration time. It is defined only for positive frequencies.</p>
+<blockquote>
+<div><div class="math">
+<p><img src="_images/math/1f8c596e08fce6902aaab785dfb607065f5db894.png" alt="S(\omega) = \frac 1T\left(\int_{-T/2}^{T/2} f(t)e^{-i\omega t}\mathrm dt\right)^2"/></p>
+</div></div></blockquote>
+<ul>
+<li><p class="first">Write a function in Python that calculates the PSD for a given signal (numpy array). This function will return two arrays : the frequencies and the corresponding PSD.</p>
+<blockquote>
+<div><ul class="simple">
+<li>What is the unit of the PSD ?</li>
+<li>Which parameter should we add in order to get the correct freuqencies ?</li>
+<li>What is the minimal (non zero) and maximal frequency ?</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="sound-analysis">
+<h2>Sound analysis<a class="headerlink" href="#sound-analysis" title="Permalink to this headline">¶</a></h2>
+<p>In the given file, we have synthetized a 10 second sound (<a class="reference download internal" href="_downloads/data.dat" download=""><code class="xref download docutils literal notranslate"><span class="pre">son/data.dat</span></code></a>). It consists of a noise. After 3 seconds, there is a distinct sound during 4 seconds.</p>
+<ul class="simple">
+<li>Load the file and get its sample rate</li>
+<li>Are you able to see the difference of the noise with or without the sound by simply plotting the amplitude ?</li>
+<li>Plot the PSD of the noise with and without the sound. What is the frequency of the sound ?</li>
+</ul>
+</div>
+<div class="section" id="window-function">
+<h2>Window function<a class="headerlink" href="#window-function" title="Permalink to this headline">¶</a></h2>
+<p>When the duration of the sample is not a multiple of the period of the signal we want to look at, the DFT will not give a single peak. If the amplitude of the signal is small compared to the noise or to another signal, it can be hidden.</p>
+<p>In order to reduce this problem, we should use a window function (apodization). It will concentrate the energy onto the central frequency.</p>
+<p>There are different kinds of window function (see <a class="reference external" href="http://en.wikipedia.org/wiki/Window_function">http://en.wikipedia.org/wiki/Window_function</a> for a complete description with comparison). We will use the Hamming window function. In python it can written as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Hamming</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    \<span class="s2">&quot;</span><span class="se">\&quot;\&quot;</span><span class="s2"> Hamming window</span>
+
+    <span class="nb">input</span> <span class="p">:</span> <span class="n">N</span><span class="p">,</span> <span class="n">number</span> <span class="n">of</span> <span class="n">points</span>
+
+    <span class="n">output</span> <span class="p">:</span> <span class="n">window</span>
+    \<span class="s2">&quot;</span><span class="se">\&quot;\&quot;</span>
+
+    <span class="c1">#Valeurs des coefficients</span>
+    <span class="n">a0</span> <span class="o">=</span> <span class="mf">0.54</span>
+    <span class="n">a1</span> <span class="o">=</span> <span class="mf">0.46</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">w_Hamming</span> <span class="o">=</span> <span class="n">a0</span> <span class="o">-</span> <span class="n">a1</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="o">*</span><span class="n">n</span><span class="o">/</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">w_Hamming</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">w_Hamming</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>In order to see the importance of window functions, let us take 1 second of the noise of the previous exercise with the distinct sound. Let us add a strong sinusoidal sound with an amplitude of 1 and a frequency close to the initial one (for example shifted by 4.3 Hz). Plot and compare the PSD with and without window.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Exercises on Fourier analysis</a><ul>
+<li><a class="reference internal" href="#simple-example-of-fourier-transform">Simple example of Fourier transform</a></li>
+<li><a class="reference internal" href="#power-spectral-density">Power spectral density</a></li>
+<li><a class="reference internal" href="#sound-analysis">Sound analysis</a></li>
+<li><a class="reference internal" href="#window-function">Window function</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exo_fourier.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,108 @@
+Exercises on fit
+================
+
+Fit of inteference fringes
+--------------------------
+
+We would like to fit the fringes from an atom interferometer. The data are in the file (:download:`data/fit_sinus.dat <data/fit_sinus.dat>`). The first column of the file (x axis) represents a frequency in Hz. The second column (y axis) represents the population measured for the given frequency. The goal is to find the position of the central fringe. 
+
+The fit function is a cosine function with adjustable offset, amplitude, position and width. 
+
+* Load and plot the data. 
+
+* Write the fit function called ``fringe(x, ....)`` 
+
+* Find the initial parameter for the fit. 
+
+* Calculate the optimal parameters
+
+* What is the position and uncertainty of the central fringe ?
+
+.. admonition:: Solution
+
+    
+    ::
+    
+        
+        from scipy.optimize import curve_fit
+        
+        data = loadtxt('data/fit_sinus.dat')
+        
+        Freq = data[:,0]
+        Y = data[:,1]
+        
+        def fringe(x,offset, amplitude, center, Delta_f):
+            "y = offset + amplitude* (1+cos(2*pi*(x-center)/Delta_f))/2"
+            return offset + amplitude* (1+cos(2*pi*(x-center)/Delta_f))/2
+        
+        param_ini = [0.12, .2, 0., 200.]
+        
+        clf()
+        plot(Freq, Y, 'o')
+        
+        x_fit = linspace(min(Freq), max(Freq))
+        #plot(x_fit, fringe(x_fit, *param_ini))
+        
+        popt, cov = curve_fit(fringe, Freq, Y, p0=param_ini)
+        
+        offset, amplitude, center, Delta_f = popt
+        sigma_offset, sigma_amplitude, sigma_center, sigma_Delta_f = sqrt(diag(cov))
+        
+        plot(x_fit, fringe(x_fit, *popt))
+    
+    
+    
+
+
+Fit of a picture
+----------------
+
+We have a 64x64 picture of a double star. Using the example given in the lecture, fit the picture by the sum of two gaussians and get the distance between the two stars.
+
+Data are in the file (:download:`data/double_star <data/double_star.txt>`).
+
+
+.. admonition:: Solution
+
+    
+    ::
+    
+        
+        image = loadtxt('data/double_star.txt')
+        
+        ny, nx = image.shape
+        X,Y = meshgrid(range(nx), range(ny))
+        # two column matrices with X and Y
+        XY = array([X.flatten(), Y.flatten()]).transpose()
+        
+        def gauss(XY, amplitude, center_x, center_y, diameter):
+            x = XY[:,0]
+            y = XY[:,1]
+            return amplitude*exp(-((x-center_x)**2 + (y-center_y)**2)/diameter**2)
+        
+        def model(XY, *param):
+            return gauss(XY, *param[:4]) + gauss(XY, *param[4:8]) + param[8]
+        
+        figure(0)
+        imshow(image, interpolation = 'nearest')
+        
+        # Measured position of the center using the imshow figure.
+        x0, y0 = 31, 25
+        x1, y1 = 31, 38
+        
+        p0 = [200, x0, y0, 2, 200, x1, y1, 2, 0.2]
+        
+        # One can look at the initial parameters
+        image_test = model(XY, *p0).reshape(X.shape)
+        imshow(image_test, interpolation = 'nearest')
+        
+        popt, pcov = curve_fit(model, XY, image.flatten(), p0)
+        print "Distance : ", hypot(popt[1] - popt[5], popt[2] - popt[6])
+        
+        figure(1)
+        image_fit = model(XY, *popt).reshape(X.shape)
+        imshow(image_fit, interpolation = 'nearest')
+    
+    
+    
+

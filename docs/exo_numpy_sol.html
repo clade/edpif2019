@@ -1,0 +1,288 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Exercises on numpy array &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exercises-on-numpy-array">
+<h1>Exercises on numpy array<a class="headerlink" href="#exercises-on-numpy-array" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="squared-numbers">
+<h2>Squared numbers<a class="headerlink" href="#squared-numbers" title="Permalink to this headline">¶</a></h2>
+<p>Create a list (using a loop) and an array (without loop) containing the square of integer number from 0 to N-1. Compare execution speed with <img class="math" src="_images/math/e355d37a7bc8cc33da1c944024ba9f958d78d2af.png" alt="N=10^6"/>.</p>
+<div class="admonition-solution admonition">
+<p class="first admonition-title">Solution</p>
+<p>On can use the time module te precisely measure the speed</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+
+<span class="n">list_square</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000000</span><span class="p">):</span>
+    <span class="n">list_square</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+
+<span class="n">array_square</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="mi">1000000</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int64</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+
+<span class="nb">print</span> <span class="s2">&quot;Duration with a list   :&quot;</span><span class="p">,</span> <span class="n">t1</span><span class="o">-</span><span class="n">t0</span>
+<span class="nb">print</span> <span class="s2">&quot;Duration with an array :&quot;</span><span class="p">,</span> <span class="n">t2</span><span class="o">-</span><span class="n">t1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calculation-of-pi">
+<h2>Calculation of pi<a class="headerlink" href="#calculation-of-pi" title="Permalink to this headline">¶</a></h2>
+<p>Without any loop, calculates <img class="math" src="_images/math/c1bd4cb4e3647c6b2356b7ccf2f52aeffedd1b61.png" alt="\pi"/> using the formula :</p>
+<div class="math">
+<p><img src="_images/math/ccc8242efa6d96b05bda59e0e949f1dc3a9aa858.png" alt="\pi = \sqrt{12}\sum_{k=0}^{\infty} \frac{(-1)^k}{3^k(2k+1)}"/></p>
+</div><p>Take care of the integer division in the 2.7 version of Python.</p>
+<div class="admonition-solution admonition">
+<p class="first admonition-title">Solution</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">34</span>
+<span class="n">Tk</span> <span class="o">=</span> <span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">float64</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">*</span><span class="nb">sum</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="n">Tk</span> <span class="o">/</span> <span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="n">Tk</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Tk</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p class="last">Which value to choose for N ? The relative precision of 64 bits float is
+<img class="math" src="_images/math/e219f4bbf31eece3eb5ac2946975615ed9878a6b.png" alt="2\times 10^{-16}"/>. We can stop the sum if <img class="math" src="_images/math/99a11e0cb062e897be9914463264dbfd1eb49e6f.png" alt="1/(3^k (2k+1)) &lt; 3\cdot 10^{-16}"/>.
+This is the case for
+<img class="math" src="_images/math/79506fda85f1acd7d2298ee34d6f11147a1de0b8.png" alt="k&gt;-\log(3\cdot 10^{-16})/\log(3) \simeq 34"/>.</p>
+</div>
+</div>
+<div class="section" id="allan-variance">
+<h2>Allan variance<a class="headerlink" href="#allan-variance" title="Permalink to this headline">¶</a></h2>
+<p>The allan variance of a set of measurements <img class="math" src="_images/math/4520081052dd155a003892ac4f689f04bdbbcb3c.png" alt="y_k"/>, where each point corresponds to a frequency measured during <img class="math" src="_images/math/d9e99c35d3632bb156b7aca0e93cd78a148a10e8.png" alt="\tau"/> is defined as :</p>
+<div class="math">
+<p><img src="_images/math/0cecf5eb5c8884c13fb7376fe61895b482549f7d.png" alt="\sigma_y^2(\tau) = \frac 12 \left&lt;\left(y_{k+1} - y_k\right)^2\right&gt;_k"/></p>
+</div><ol class="arabic simple">
+<li>Write a function that calculates the Allan variance <strong>without any loop</strong></li>
+</ol>
+<p>Using a data set where the duration of each measurement is <img class="math" src="_images/math/b2d0ba5452b481d37852a25c3b975d3597ee8001.png" alt="\tau_0"/>, it is possible to calculate the Allan variance for duration <img class="math" src="_images/math/08e23b8d6d3af1eb39bfefd46460d25430c5460e.png" alt="\tau = n\tau_0"/> that are mutiple of <img class="math" src="_images/math/b2d0ba5452b481d37852a25c3b975d3597ee8001.png" alt="\tau_0"/>. In this case, the new value is calculated by taking the average value of <img class="math" src="_images/math/413f8a8e40062a9090d9d50b88bc7b551b314c26.png" alt="n"/> consecutive measurements. There is no overlap between the values (there is <img class="math" src="_images/math/413f8a8e40062a9090d9d50b88bc7b551b314c26.png" alt="n"/> times less points compared to the initial set).</p>
+<ol class="arabic simple" start="2">
+<li>Write a function <code class="docutils literal notranslate"><span class="pre">average_frequency(data,</span> <span class="pre">n)</span></code> that calculate the mean value of <code class="docutils literal notranslate"><span class="pre">data</span></code> with packets of size <code class="docutils literal notranslate"><span class="pre">n</span></code>.</li>
+</ol>
+<p>It is possible to make this function without any loop. Let us start with an array of size 10 and take <img class="math" src="_images/math/b2e39c709bfa3fb0acea6a80914b706af361ad9a.png" alt="n=2"/>. The shape of the array is initially:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+--+--+--+--+--+--+--+--+--+--+</span>
+<span class="o">|</span><span class="n">x0</span><span class="o">|</span><span class="n">x1</span><span class="o">|</span><span class="n">x2</span><span class="o">|</span><span class="n">x3</span><span class="o">|</span><span class="n">x4</span><span class="o">|</span><span class="n">x5</span><span class="o">|</span><span class="n">x6</span><span class="o">|</span><span class="n">x7</span><span class="o">|</span><span class="n">x8</span><span class="o">|</span><span class="n">x9</span><span class="o">|</span>
+<span class="o">+--+--+--+--+--+--+--+--+--+--+</span>
+</pre></div>
+</div>
+<p>Using the rechape method (<code class="docutils literal notranslate"><span class="pre">x.reshape((5,2))</span></code>), the array will look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+--+--+</span>
+<span class="o">|</span><span class="n">x0</span><span class="o">|</span><span class="n">x1</span><span class="o">|</span>
+<span class="o">+--+--+</span>
+<span class="o">|</span><span class="n">x2</span><span class="o">|</span><span class="n">x3</span><span class="o">|</span>
+<span class="o">+--+--+</span>
+<span class="o">|</span><span class="n">x4</span><span class="o">|</span><span class="n">x5</span><span class="o">|</span>
+<span class="o">+--+--+</span>
+<span class="o">|</span><span class="n">x6</span><span class="o">|</span><span class="n">x7</span><span class="o">|</span>
+<span class="o">+--+--+</span>
+<span class="o">|</span><span class="n">x8</span><span class="o">|</span><span class="n">x9</span><span class="o">|</span>
+<span class="o">+--+--+</span>
+</pre></div>
+</div>
+<p>The method <code class="docutils literal notranslate"><span class="pre">mean(axis=1)</span></code> will perform the average line by line.</p>
+<ol class="arabic simple" start="3">
+<li>Write the function <code class="docutils literal notranslate"><span class="pre">AllanVariance(data,</span> <span class="pre">n)</span></code> that calculate the Allan variance for a measurement duration of <img class="math" src="_images/math/8e01c5ee6d6b6e8f2e7af5fd0aa0ec9a51594a02.png" alt="n\tau_0"/>.</li>
+</ol>
+<div class="admonition-solution admonition">
+<p class="first admonition-title">Solution</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">average_frequency</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; moyenne les valeurs de data par paquets de taille n&quot;&quot;&quot;</span>
+    <span class="n">databis</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">%</span><span class="n">n</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">databis</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">//</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">AllanVariance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Variance d&#39;Allan</span>
+
+<span class="sd">    Calcul la variance d&#39;Allan du tableau data en regroupant les mesures par</span>
+<span class="sd">    paquets de taille n</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">average_frequency</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span>  <span class="p">((</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">/</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="mandelbrot-set">
+<h2>Mandelbrot set<a class="headerlink" href="#mandelbrot-set" title="Permalink to this headline">¶</a></h2>
+<p>The Mandelbrot set is defined as the set of points <img class="math" src="_images/math/65868d23a5bfe5b3b2d819386b19c14fa36af134.png" alt="c"/> of the complex plane such that the following sequence  :</p>
+<div class="math">
+<p><img src="_images/math/5b834281c613101f94bf58a0c79d14cde1e60c13.png" alt="z_0=0
+
+z_{n+1}=z_n^2+c"/></p>
+</div><p>is bounded.</p>
+<p>One can show that if there is a value of <img class="math" src="_images/math/413f8a8e40062a9090d9d50b88bc7b551b314c26.png" alt="n"/> such that <img class="math" src="_images/math/e116e4f147bfaea0a0651a344b4e8e9235c9cb38.png" alt="|z_n|&gt;2"/> the the sequence is divergent. To calculate the Mandelbrot set, for each value of <img class="math" src="_images/math/65868d23a5bfe5b3b2d819386b19c14fa36af134.png" alt="c"/> one calculate 100 iterations. The picture is plotted by giving to each point the smallest value of <img class="math" src="_images/math/a6458e9f6408c74d72333ea6ebb44b88f1935de0.png" alt="n &lt; 100"/> such that <img class="math" src="_images/math/e116e4f147bfaea0a0651a344b4e8e9235c9cb38.png" alt="|z_n|&gt;2"/> (and 0 if this value doesn’t exist).</p>
+<p>Calculate and plot the Mandelbrot set for <img class="math" src="_images/math/65868d23a5bfe5b3b2d819386b19c14fa36af134.png" alt="c"/> such that <img class="math" src="_images/math/c6b3118d47aeb6643d1b56719284b68c23a1986b.png" alt="-2.13 &lt; \operatorname{Re}(c) &lt; 0.77"/> and <img class="math" src="_images/math/83ad67aadba93d0c0fb74c0c85b39e77aeeb14a6.png" alt="-1.13 &lt; \operatorname{Im}(c) &lt; 1.13"/>. One can then zoom on the edge of the set.</p>
+<p>Note : to plot an image, use the imshow function of pylab.</p>
+<p>The total computation time using numpy efficiently is less than 10 seconds for a 1024x1024 matrix.</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mandel_couleur.png"><img alt="_images/mandel_couleur.png" src="_images/mandel_couleur.png" style="width: 50%;" /></a>
+</div>
+<div class="admonition-solution admonition">
+<p class="first admonition-title">Solution</p>
+<p>Three different method are used : using numpy functions, using the vectorize function and using the numexpr package (multi CPU).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.13</span><span class="p">,</span> <span class="mf">0.77</span>
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.13</span><span class="p">,</span> <span class="mf">1.13</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<span class="k">def</span> <span class="nf">mandel_numpy</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mandelbrot using numpy &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+
+    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">image</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">image</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="k">return</span> <span class="n">image</span>
+
+<span class="k">def</span> <span class="nf">_mandel_suite</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+<span class="n">mandel_suite</span> <span class="o">=</span> <span class="n">vectorize</span><span class="p">(</span><span class="n">_mandel_suite</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">mandel_vectorized</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mandelbrot set using vectorize from numpy &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">mandel_suite</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">numexpr</span> <span class="k">as</span> <span class="nn">ne</span>
+<span class="k">def</span> <span class="nf">mandel_numexpr</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mandelbrot set using the numexpr package&quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">))</span>
+
+    <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;z**2 + c&#39;</span><span class="p">)</span>
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s1">&#39;(z.real**2+z.imag**2&gt;4) &amp; (image==0)&#39;</span><span class="p">)</span>
+        <span class="n">image</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+    <span class="k">return</span> <span class="n">image</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="n">mandel_numpy</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;Numpy :&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="n">mandel_vectorized</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;Vectorize :&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
+<span class="n">mandel_numexpr</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="nb">print</span> <span class="s2">&quot;Numexpr :&quot;</span><span class="p">,</span> <span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span>
+</pre></div>
+</div>
+<p class="last">Benchmark on a Intel(R) Core(TM) i5-3570K CPU &#64; 3.40GHz
+Numpy : 2.36773109436
+Vectorize : 6.50940179825
+Numexpr : 0.899597883224</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Exercises on numpy array</a><ul>
+<li><a class="reference internal" href="#squared-numbers">Squared numbers</a></li>
+<li><a class="reference internal" href="#calculation-of-pi">Calculation of pi</a></li>
+<li><a class="reference internal" href="#allan-variance">Allan variance</a></li>
+<li><a class="reference internal" href="#mandelbrot-set">Mandelbrot set</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exo_numpy_sol.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

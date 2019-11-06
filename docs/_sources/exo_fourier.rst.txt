@@ -1,0 +1,79 @@
+
+Exercises on Fourier analysis
+=============================
+
+Simple example of Fourier transform
+-----------------------------------
+
+Plot the Fourier transform of :math:`1/(1+0.99\cos(2\pi t))` for frequency below 50 Hz. 
+using the `fft` function of the module `numpy.fft`.
+
+* Which sample rate do you use ?
+
+* On which duration should you calculate f ?
+
+* What happens if this duration is 10 time too long ? 
+
+* What happens if it is not a multiple of the period of the signal ?
+
+
+Power spectral density
+----------------------
+
+The power spectral density (PSD) is defined as the square of the modulus of the Fourier transform of a signal divided by the integration time. It is defined only for positive frequencies. 
+
+  .. math::
+
+    S(\omega) = \frac 1T\left(\int_{-T/2}^{T/2} f(t)e^{-i\omega t}\mathrm dt\right)^2
+
+* Write a function in Python that calculates the PSD for a given signal (numpy array). This function will return two arrays : the frequencies and the corresponding PSD. 
+
+    * What is the unit of the PSD ?  
+
+    * Which parameter should we add in order to get the correct freuqencies ?
+
+    * What is the minimal (non zero) and maximal frequency ? 
+
+
+Sound analysis
+--------------
+
+In the given file, we have synthetized a 10 second sound (:download:`son/data.dat <son/data.dat>`). It consists of a noise. After 3 seconds, there is a distinct sound during 4 seconds.
+
+* Load the file and get its sample rate
+
+
+* Are you able to see the difference of the noise with or without the sound by simply plotting the amplitude ? 
+
+
+* Plot the PSD of the noise with and without the sound. What is the frequency of the sound ? 
+
+
+Window function
+---------------
+
+When the duration of the sample is not a multiple of the period of the signal we want to look at, the DFT will not give a single peak. If the amplitude of the signal is small compared to the noise or to another signal, it can be hidden. 
+
+In order to reduce this problem, we should use a window function (apodization). It will concentrate the energy onto the central frequency.
+
+There are different kinds of window function (see http://en.wikipedia.org/wiki/Window_function for a complete description with comparison). We will use the Hamming window function. In python it can written as ::
+
+    def Hamming(N):
+        \"\"\" Hamming window
+        
+        input : N, number of points
+        
+        output : window
+        \"\"\"
+        
+        #Valeurs des coefficients
+        a0 = 0.54
+        a1 = 0.46
+        
+        n = arange(N)
+        w_Hamming = a0 - a1*cos(2*pi*n/(N-1))
+        
+        return w_Hamming/sqrt(sum(w_Hamming**2)/N) 
+
+* In order to see the importance of window functions, let us take 1 second of the noise of the previous exercise with the distinct sound. Let us add a strong sinusoidal sound with an amplitude of 1 and a frequency close to the initial one (for example shifted by 4.3 Hz). Plot and compare the PSD with and without window.
+

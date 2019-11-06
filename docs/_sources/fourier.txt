@@ -1,0 +1,55 @@
+Fourier analysis
+================
+
+Formulas
+--------
+
+Usefull formulae for the Fourier transform
+
+* Continuous Fourier transform
+
+  .. math::
+
+    \tilde{f}(\omega) = \int_{-\infty}^\infty f(t)e^{-i\omega t}\mathrm dt
+
+* Inverse Fourier transform
+
+  .. math::
+    
+    f(t) = \frac1{2\pi}\int_{-\infty}^\infty \tilde f(\omega)e^{+i\omega t}\mathrm dt
+
+* Discrete Fourier transform
+
+  .. math::
+
+    \tilde{x}_k = \sum_{i=0}^Nx_je^{2i\pi\frac{kj}N}
+
+  This is the formula used by computers.
+
+* Link between discrete Fourier transform and continuous Fourier transform :
+
+  .. math::
+
+    \tilde x_k = \sum x_je^{2i\pi(j\Delta\!t)\frac k{N\Delta\!t}} = 
+    \frac 1{\Delta\!t} \sum f(t_j) e^{2i\pi t_j \frac kT}\Delta\!t = 
+    \frac 1{\Delta\!t}\tilde f\left(\frac kT\right)
+
+  With this formula you can get the correct scale for the x and y axis. 
+
+
+FFT
+---
+
+The algorithm used to perform the discrete fourier transform is called the fast Fourier transform (FFT). This algorithm is efficient when the array can be recursively splitted in a small numberof arrays of the same size. It is therefore very efficient when the size of the array is a power of two. In this case the complexity will be in :math:`O(n\log n)` where :math:`n` is the size of the array. This algorithm is inefficient if the size of the array has large integer in his factorization. For example : ::
+
+   from numpy.fft import *
+   from numpy import rand
+
+   a = rand(2**17)
+   %timeit fft(a) # about 4.5 ms
+
+   a = rand(2**17-1) # 2**17-1 is a prime number
+   %timeit fft(a) # about 52 s
+
+
+

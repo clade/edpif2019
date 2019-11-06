@@ -1,0 +1,13 @@
+=====================
+Numerical calculation 
+=====================
+
+.. toctree::
+   :maxdepth: 2
+
+   numpy
+   graphique
+   fit
+   equadiff
+   fourier
+

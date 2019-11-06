@@ -1,0 +1,242 @@
+===========================
+Object oriented programming
+===========================
+
+In python all variables (including functions) are objects. We have already seen some concepts of object oriented programming : attributes and methods. Let us look to complex numbers :: 
+
+  z = 1 + 2J
+  print z.real # this is an attribute
+  zconj = z.conjugate() # this is a method
+
+
+The type of the object referenced by the variable ``z`` is a complex number. It means that somewhere a ``class`` defined what a complex number is. 
+
+First example
+=============
+
+Building a class
+----------------
+
+Let us look how to create our own ``Complex`` class. ::
+
+  class Complex(object):
+      def __init__(self, x, y):
+          self.real = x
+          self.imag = y
+
+  z = Complex(1,2.)
+
+In this example, we have created the class. The init method is called when the object is created and it sets the atributes ``real`` and ``imag`` of the complex number.  
+
+
+On can write the conjugate methode and add other methods: ::
+
+  class Complex(object):
+      ...
+      def conjugate(self):
+          return Complex(self.real, -self.imag)
+      def modulus(self):
+          return math.sqrt(self.real**2 + self.imag**2)
+
+  z = Complex(1,2.)
+  conjz = z.conjugate()
+
+
+Special methods __str__ and __repr__
+------------------------------------
+
+The __str__ and __repr__ method are used to create a string for simplified printing (__str__) or full representation (__repr__). ::
+
+  def __str__(self):
+      if self.imag >0:
+          return "({0} + {1}J)".format(self.real, self.imag)
+      else:
+          return "({0} - {1}J)".format(self.real, -self.imag)
+  def __repr__(self):
+      return "Complex({0}, {1})".format(repr(self.real), repr(self.imag))
+
+Special methods for binary operation
+------------------------------------
+
+The __add__, __mul__, __sub__ and __div__ (and __truediv__) methods are used to implement addition, multiplication, substraction and division. Let us implement the __add__ method ::
+
+   def __add__(self, other):
+       return Complex(self.real+other.real, self.imag+other.imag)
+
+This method will let us add two complex numbers using the '+' sign. ::
+
+    a = Complex(1,2)
+    b = Complex(1,-1)
+
+    print a+b
+
+
+Instrument Driver
+=================
+
+Driving instruments using objects
+---------------------------------
+
+Example of a laser driver ::
+
+    class Verdi(object):
+        """ Verdi driver class
+
+        example : 
+            laser = Verdi('COM7')
+            laser.set_power(15)
+        """
+        def __init__(self, port):
+            """ ...  """
+            self.serial_connection = serial.Serial(port=port, baudrate=19200)
+        def read_cmd(self, cmd):
+            self.serial_connection.write('?{0}\r\n'.format(cmd))
+            return self.serial_connection.readline()
+        def write_cmd(self, cmd, val):
+            self.serial_connection.write('{0}:{1}\r\n'.format(cmd, val))        
+        def get_power(self):
+            return self.read_cmd('P')
+        def set_power(self, val):
+            self.write_cmd('P', '{0:6.4f}'.format(val))
+
+    laser = Verdi('COM7')
+    laser.set_power(15)
+
+
+When are objects useful ? 
+=========================
+
+* Classes provide high level information. In the previous example, all the information concerning the connection are inside the object. 
+
+* Implementation details are hiden (the user do not have to know how to connect to a serial port). 
+
+* The object version allows the code to pass many fewer variable (to set the power, we only give the power and not the port, baudrate or the brand of the instrument). 
+
+* The object version is better organized (all the function are grouped inside the class)
+
+* The object version is more versatile : the user interface does not depend on the specific instrument. For example if you write a Millenia class, then you can use your programm for a Millenia by changing only one line (laser = Verdi(...) is replaced by laser = Millenia(...) ).
+
+
+Tutorial on classes
+===================
+
+The web page `https://docs.python.org/2/tutorial/classes.html <https://docs.python.org/2/tutorial/classes.html>`_ contains an interesting tutorial on classes. 
+
+Customizing object
+==================
+
+We have already seen some special methods used to customize object. The data model of Python (`https://docs.python.org/2/reference/datamodel.html <https://docs.python.org/2/reference/datamodel.html>`_) describes all the special methods. They are used to customize the way object are displayed or compared with another. They are also used to mimic different type like the numeric type, containers type (list, dictionnary, ...), callable (function). 
+
+Two builtins functions are usefull when dealing with object : the function ``isinstance(obj, cls)`` tests if ``obj`` is an instance of ``cls``. The ``hasattr(obj, attr_name)`` function test if ``obj`` has an attribute called ``attr_name``. 
+
+When creating a numeric like object, consider also the implementation of reversed operator. When python see ``a + b`` then it call the method ``__add__`` on object ``a``. In the example of Complex number that we have seen, we have implemented the addition of two Complex number. We can also modify the method ``__add__`` to be able to add a number to a Complex number (a is Complex but b is a number). We cannot modify the method ``__add__`` of float (for example) so that we can add a Complex number to a float (a is a float). The way to do it is to implement the __radd__ (reversed add) method. Below is the way to do implement the addition for Complex : ::
+
+    import numbers
+
+    class Complex(object):
+        def __add__(self, other): 
+            if isinstance(other, numbers.Number):
+                other = Complex(other, 0)
+            if isinstance(other, Complex):
+                return Complex(self.real+other.real,
+                                    self.imag+other.imag)
+            raise NotImplemented
+        def __radd__(self, other):
+            return self + other # addition is commutative
+
+If the operation is not implemented, you should raise a ``NotImplemented`` error. This error will be catched by the interpreter to try the reverse operation.        
+        
+
+Properties
+==========
+
+Classes implements different kinds of attributes : data attributes are used to store variables inside the object. Methods are used to call function that depends on the object and other arguments. Methods are use to perform an actions : modifying the object, performing calculations, ... ::
+
+    class MyClass(object):
+        a = 1
+        b = []
+        def __init__(self):
+            c = 2
+            d = []
+        def f(self):
+            return 3
+
+    x = MyClass()
+    x.e = []
+    y = MyClass()
+    y.a = 2
+    y.b.append(4)
+    y.d.append(3)
+    print x.a, y.a
+    print x.b, y.b
+    print x.d, y.d
+
+In this example, ``c``, ``d``, ``e`` are data attribute (they are linked to the object). But, ``a`` and ``b`` are class attribute. When one call ``x.a``, because ``a`` is not a data attribute, then the interpreter look for the class, find a valide class attribute and return it. In the above example, ``x.b`` and ``y.b`` will be the same object, but not ``x.d`` and ``y.d``. Assignement will always create a data attribute.
+
+Basically, functions defined in the class are converted to methods. In the above example,  ``MyClass.f`` is the original function and ``x.f`` is the method, i.e. a new funcion with ``x`` as first paramter.
+
+Properties is another kind of attribute. When a method (without arguments) is used to get information from the object, the value return from this method is similar to an attribute. For example, complex number were described using real and imaginary part. To get the modulus of the complex number, we have used a method. But if the complex number were represented using a polar representation, then the norm would be an attribute. Using property allows to hide this implementation detail. ::
+
+    class Complex(object):
+        def __init__(self, x=None, y=0, r=None, theta=None):
+            if x is not None:
+                self.real = x
+                self.imag = y
+            else:
+                if r is None or theta is None:
+                    raise ValueError('Complex number should be defined\
+                              using either x and y or r and theta')
+                self.real = r*math.cos(theta)
+                self.image = r*math.sin(theta)
+
+        @property
+        def r(self):
+            return self.modulus()
+
+        @property
+        def theta(self):
+            return math.atan2(self.imag, self.real)
+
+        def __mul__(self, other):
+            r = self.r*other.r
+            theta = self.theta + other.theta
+            return Complex(r=r, theta=theta)
+
+
+Properties are also usefull when you want to perform an action when an attribute is set. For example, using the Verdi class defined above, we can create the power property with a setter and a getter : ::
+
+
+    class Verdi(object):
+        ...
+
+        def get_power(self):
+            ...
+        def set_power(self, val):
+            ...
+
+        power = property(get_power, set_power, doc="blabla")
+
+Now we can use this object like this : ::
+
+    laser = Verdi('COM7')
+
+    laser.power = 15 # Set the laser power to 15 W
+    print laser.power # Return the actual power of the laser
+
+Inheritance
+===========
+
+One of the main feature of object oriented programming is the possibility for classes to heritate from other classes. When a class B heritates from class A, then all attributes of class A are avalailable for class B. Actually, we have already used heritage, as the every object heritates from the class ``object``. For example, by default, every object have a method called ``__repr__``. 
+
+In a typical situation, a class heritated from a single class. This situation occurs when one wants to specialize a class. For example, one can create a ``Imaginary`` number class. Such a number, will be a complex number, but the ``__init__`` and ``__str__`` method can be changed : ::
+
+    class Imaginary(Complex):
+        def __init__(self, y=1):
+            return Complex.__init__(self, x=0, y=y)
+        def __str__(self):
+            return "{0}J".format(self.imag)
+
+
+
+
+

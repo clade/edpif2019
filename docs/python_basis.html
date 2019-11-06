@@ -1,0 +1,1221 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Introduction to Python &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Numerical calculation" href="index_numpy.html" />
+    <link rel="prev" title="Python for scientists" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index_numpy.html" title="Numerical calculation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Python for scientists"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction-to-python">
+<h1>Introduction to Python<a class="headerlink" href="#introduction-to-python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-python-language">
+<h2>The Python language<a class="headerlink" href="#the-python-language" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Python is an interpreted language (by opposition to a compiled language like C or Fortran)</li>
+<li>Interpreted language are easier to use than compile language but slower. This is not a problem for scientific calculation because complex algorithms are programmed in C or Fortran.</li>
+<li>There are two versions of Python, the version 2 (currently 2.7) and the version 3 (currently 3.7). There are small differences in the syntax. We are using the 2.7 version. This is still the version installed by default on Linux.</li>
+<li>We strongly advise to install the Anaconda distribution <code class="docutils literal notranslate"><span class="pre">https://www.anaconda.com/download/</span></code>. This distribution was build for scientific calculation. It is available for different platforms (Linux, Mac or Windows).</li>
+</ul>
+</div>
+<div class="section" id="a-taste-of-python">
+<h2>A taste of Python<a class="headerlink" href="#a-taste-of-python" title="Permalink to this headline">¶</a></h2>
+<p>A first example in Python. The goal is to calculate the value of <img class="math" src="_images/math/cd4321c696b6b066437c8c595b3e947d8e6677fd.png" alt="e^x"/>. We will use the following Taylor sum :</p>
+<div class="math">
+<p><img src="_images/math/7a2ca9a019601b08a3e734e0c255afb255e2f07a.png" alt="e^x = \sum_{n=0}^{\infty} \frac{x^n}{n!}"/></p>
+</div><p>We will calculate this sum up to a value <img class="math" src="_images/math/86c814259cc4d1556885a01168e3efbc2accde53.png" alt="n_\mathrm{max}"/> of <img class="math" src="_images/math/413f8a8e40062a9090d9d50b88bc7b551b314c26.png" alt="n"/> such that <img class="math" src="_images/math/026537837afed3f082e79b21dc1027059eeacec0.png" alt="x^n/n!&lt;\epsilon"/>.
+The variable <img class="math" src="_images/math/19bc0073dde1bcd1a8e6a32b251e80cced668f04.png" alt="\epsilon"/> will set the precision of the calculation (the smaller <img class="math" src="_images/math/19bc0073dde1bcd1a8e6a32b251e80cced668f04.png" alt="\epsilon"/> is, the better is the precision).</p>
+<p>The Python code that can perform this calculation is</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mf">3.14</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">1E-6</span>
+<span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">term</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Initial value</span>
+<span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">&gt;</span><span class="n">epsilon</span> <span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="n">term</span>
+    <span class="n">term</span>  <span class="o">=</span> <span class="n">term</span> <span class="o">*</span> <span class="n">x</span><span class="o">/</span><span class="n">n</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We see in this example some specificity of Python : variable are not declared and also the block of instruction in the while loop is determined by the indentation (spaces at the beginning of the line). Each instruction that control a block (while, for, def, if, …) ends with a colon (‘:’).</p>
+</div>
+<div class="section" id="how-to-execute-python-code">
+<h2>How to execute Python code<a class="headerlink" href="#how-to-execute-python-code" title="Permalink to this headline">¶</a></h2>
+<p>This small script can be executed in different ways.</p>
+<ul>
+<li><p class="first">Copy-paste the example above in a file called <code class="docutils literal notranslate"><span class="pre">exponential.py</span></code>. You can run the script by calling</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">exponential</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>This is the basic way of executing a Python program, in a non interacting mode.</p>
+</li>
+<li><p class="first">Run the python command shell simply with the <code class="docutils literal notranslate"><span class="pre">python</span></code> command. You can then write directly commands.</p>
+</li>
+<li><p class="first">Using IPython, a more sofisticated python command shell. Run the <code class="docutils literal notranslate"><span class="pre">ipython</span></code> command in terminal. In this shell, you have introspection, tab completion, history, … You can use the <code class="docutils literal notranslate"><span class="pre">%run</span> <span class="pre">exponentielle.py</span></code> to execute the script. The advantage of using a command shell is that you have access to all the variables of your program after its execution. A more aesthetic version of IPython is available using the command <code class="docutils literal notranslate"><span class="pre">ipython</span> <span class="pre">qtconsole</span></code> (or in the menu).</p>
+</li>
+<li><p class="first">Using Spyder. Spyder combines an IPython qt console and a text editor. This environment was made to look like Matlab. It is very convenient for developping small scripts. To execute our script, simply open spyder, copy the code and run it with the F5 function key. You will see the result printed in the console.</p>
+</li>
+<li><p class="first">Using the Jupyter Notebok. This is used to create notebook similar to what is done in Mathematica. Run the command <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code>. Your default web browser should open a new tab with the application. You can then open a new project. Write the code in a cell, execute it with the <code class="docutils literal notranslate"><span class="pre">shift</span> <span class="pre">+</span> <span class="pre">Enter</span></code> keys. Goe to the next cell to continue.</p>
+</li>
+<li><p class="first">PyDev (Python IDE for Eclipse). Eclipse is an integrated development environment (IDE) used in computer programming. It has a lot of functionality and is very convenient for large projects.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="variable-in-python">
+<h2>Variable in Python<a class="headerlink" href="#variable-in-python" title="Permalink to this headline">¶</a></h2>
+<p>A variable is a symbol that represents a value (an object). This object can be used or modified during the execution of the program. In Python, the value of each variable as a specific type (number, string, or your own type).</p>
+<p>The creation of a variable is done using the <code class="docutils literal notranslate"><span class="pre">=</span></code> sign. The interpreter evaluate the right hand side (rhs) and assign to the variable the resul of the evaluation.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In compiled language like C, usually the variable correspond to a place in memory. You should declare the type of the variable so that the compiler can allocate the memory. In those language, the instruction <code class="docutils literal notranslate"><span class="pre">a=1</span></code> means : copy the value of rhs (in this case 1) to the memory designed by the variable <code class="docutils literal notranslate"><span class="pre">a</span></code>. In C, the memory is created with the variable. In Python, the memory is created with the content. And then is assigned to the variable.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The name of a variable is any sequence of letter or number or <code class="docutils literal notranslate"><span class="pre">_</span></code> which does not starts with a number. Variable are case sensitive</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">A</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">_aA12bZz</span> <span class="o">=</span> <span class="mi">35</span> <span class="c1"># OK</span>
+<span class="mi">1</span><span class="n">J</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Error</span>
+<span class="mi">21</span><span class="n">A</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Error but not the same as above. Why ?</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>Of course the exponential function should be defined as a function. This can be done using the following</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">exp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1E-6</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; calculate e to the power x &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">term</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Initial value</span>
+    <span class="k">while</span> <span class="nb">abs</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">&gt;</span><span class="n">epsilon</span> <span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="n">term</span>
+        <span class="n">term</span>  <span class="o">=</span> <span class="n">term</span> <span class="o">*</span> <span class="n">x</span><span class="o">/</span><span class="n">n</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">The string that follows the definition of the function is a documentation string. It is the public documentation and is available to the user using the <code class="docutils literal notranslate"><span class="pre">help(function_name)</span></code> command. It is not a comment (starting with a <code class="docutils literal notranslate"><span class="pre">#</span></code>). Comments are used to explain your code, public documentation are used to describe how to use your function.</p>
+</li>
+<li><p class="first">Of course the <code class="docutils literal notranslate"><span class="pre">exp</span></code> function exists already in the math module of python. We will see at the end of this section how to use it.</p>
+</li>
+<li><p class="first">The function has an optional argument <code class="docutils literal notranslate"><span class="pre">epsilon</span></code>. There are three ways to call the function</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">exp</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1E-8</span><span class="p">)</span>
+<span class="n">exp</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">1E-8</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>In the first way, the default value is used. In the second and third way, the optional value is used. The third way is more convenient, especially when many optional arguments are used.</p>
+</div>
+<div class="section" id="data-types-in-python">
+<h2>Data types in Python<a class="headerlink" href="#data-types-in-python" title="Permalink to this headline">¶</a></h2>
+<p>This is a brief introduction, look at the official documentation to have more details.</p>
+<div class="section" id="numbers">
+<h3>Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h3>
+<p>There are three kinds of numbers:</p>
+<ul>
+<li><p class="first">Integer (type <code class="docutils literal notranslate"><span class="pre">int</span></code>). For example <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">5</span></code>, in binary <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span>
+<span class="pre">0b1001</span></code>, in hexadecimal <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">0x23</span></code>. Integer have an unlimited size (<code class="docutils literal notranslate"><span class="pre">print</span> <span class="pre">2**1234</span></code>)</p>
+</li>
+<li><p class="first">Floating point number. For example <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">1234.234</span></code> or <code class="docutils literal notranslate"><span class="pre">a</span>
+<span class="pre">=</span> <span class="pre">6.2E-34</span></code>. Numbers are <a class="reference external" href="http://fr.wikipedia.org/wiki/IEEE_754">double precision</a> (64
+bits).  The relative precision is 52 bits, about <img class="math" src="_images/math/a1fbefee03d17c11d4034ad339d30db419d86b7a.png" alt="10^{-16}"/>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mf">3.14</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span> <span class="o">+</span> <span class="mf">1E-15</span><span class="p">)</span> <span class="c1"># False</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">a</span> <span class="o">+</span> <span class="mf">1E-16</span><span class="p">)</span> <span class="c1"># True</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<ul class="simple">
+<li>Complex number. They are stored as two floating point numbers. For example <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">1</span> <span class="pre">+</span> <span class="pre">3J</span></code>.</li>
+</ul>
+<p>Operations are between number are : sum <code class="docutils literal notranslate"><span class="pre">+</span></code>, product <code class="docutils literal notranslate"><span class="pre">*</span></code>, difference or opposite number <code class="docutils literal notranslate"><span class="pre">-</span></code>, division  <code class="docutils literal notranslate"><span class="pre">/</span></code>
+integer division <code class="docutils literal notranslate"><span class="pre">//</span></code>, modulo  <code class="docutils literal notranslate"><span class="pre">%</span></code> (for example <code class="docutils literal notranslate"><span class="pre">7%2</span></code>), power (<code class="docutils literal notranslate"><span class="pre">**</span></code>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>By default in Python 2, the division of two integer gives an integer. <code class="docutils literal notranslate"><span class="pre">print</span> <span class="pre">1/2</span></code> gives <code class="docutils literal notranslate"><span class="pre">0</span></code>. In order to avoid this, one should force Python to use floats : <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">=</span> <span class="pre">1/2.</span></code>. In version 3 of Python, this behaviour has disappeared. In python2, it is possible to use the command <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">division</span></code> in order to use float division</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
+<span class="go">0.5</span>
+</pre></div>
+</div>
+</div>
+<p>For complex number, one can access to the real and imaginary parts</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">3</span><span class="n">J</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Norm &quot;</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">real</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">a</span><span class="o">.</span><span class="n">imag</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="boolean-and-comparison">
+<h3>Boolean and comparison<a class="headerlink" href="#boolean-and-comparison" title="Permalink to this headline">¶</a></h3>
+<p>Boolean have two values : <code class="docutils literal notranslate"><span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">False</span></code>. Operation with boolean are (lowest to highest priority) : <code class="docutils literal notranslate"><span class="pre">or</span></code>, <code class="docutils literal notranslate"><span class="pre">and</span></code> and <code class="docutils literal notranslate"><span class="pre">not</span></code>. Comparison of number : <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">==</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code> et <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>. In order to test if two values are different, one can use <code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code> ou <code class="docutils literal notranslate"><span class="pre">!=</span></code>.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code> and <code class="docutils literal notranslate"><span class="pre">~</span></code> symbols are used for the
+<code class="docutils literal notranslate"><span class="pre">and</span></code>, <code class="docutils literal notranslate"><span class="pre">or</span></code> and <code class="docutils literal notranslate"><span class="pre">not</span></code> on integer bit by bit using binary representation (for example <code class="docutils literal notranslate"><span class="pre">6</span> <span class="pre">&amp;</span>
+<span class="pre">5</span></code> give <code class="docutils literal notranslate"><span class="pre">4</span></code>). They also work for booleans but they can be misleading as they have a very high priority</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="mi">7</span><span class="o">==</span><span class="mi">4</span> <span class="o">|</span> <span class="mi">3</span><span class="o">==</span><span class="mi">7</span><span class="p">)</span> <span class="c1"># 7==(4 | 3)==7 -&gt; True</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">exp1</span> <span class="pre">or</span> <span class="pre">exp2</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">exp1</span> <span class="pre">if</span> <span class="pre">exp1</span> <span class="pre">else</span> <span class="pre">exp2</span></code> and <code class="docutils literal notranslate"><span class="pre">exp1</span> <span class="pre">and</span> <span class="pre">exp2</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">exp2</span> <span class="pre">if</span> <span class="pre">exp1</span> <span class="pre">else</span> <span class="pre">exp1</span></code>.
+If the result is known from the evaluation of <code class="docutils literal notranslate"><span class="pre">exp1</span></code> then <code class="docutils literal notranslate"><span class="pre">exp2</span></code> is not evaluated. The following example works even if <code class="docutils literal notranslate"><span class="pre">x&lt;=0</span></code></p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">4</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="strings">
+<h3>Strings<a class="headerlink" href="#strings" title="Permalink to this headline">¶</a></h3>
+<p>Strings can be created using either <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">'</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Peter&quot;</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;Peter&#39;</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Peter&#39;s dog&quot;</span>
+</pre></div>
+</div>
+<p>To create a string with more than one line, use <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Hello</span>
+<span class="s2">    What time is it ?&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>One can access to letters of the string in the same way as in a list (see below):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Peter&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="c1"># Element number 3, i.e. the fourth one ; i.e &quot;e&quot;</span>
+</pre></div>
+</div>
+<p>String <em>concatenation</em> is obtain using the ‘+’ sign</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Peter&quot;</span>
+<span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">message</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span> <span class="n">name</span>
+</pre></div>
+</div>
+<p>String formating is used when a variable is inserted in a string.
+The recommended syntax is the following (it is not recommended to use the old syntax with the <code class="docutils literal notranslate"><span class="pre">%</span></code>)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hour</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">minute</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;It&#39;s </span><span class="si">{0}</span><span class="s2">:</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hour</span><span class="p">,</span> <span class="n">minute</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can specify the argument of format using keys instead of position:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hour</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">minute</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;It&#39;s </span><span class="si">{h}</span><span class="s2">:</span><span class="si">{mn}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="n">hour</span><span class="p">,</span> <span class="n">mn</span><span class="o">=</span><span class="n">minute</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is possible to specify the way the number is displayed.</p>
+<p>For example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">pi</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0:.5f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pi</span><span class="p">))</span> <span class="c1"># &#39;3.14159&#39;</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">299792458.</span> <span class="c1"># Speed of light in m/s</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;c = </span><span class="si">{0:.3e}</span><span class="s1"> m/s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="c1"># &#39;2.998e+08&#39;</span>
+</pre></div>
+</div>
+<p>The full syntax (similar to C or Fortran) is described in <a class="reference external" href="https://docs.python.org/2/library/string.html#formatstrings">https://docs.python.org/2/library/string.html#formatstrings</a>.</p>
+<p>Common methods on string are already implemented</p>
+<ul class="simple">
+<li>split</li>
+<li>strip</li>
+<li>join</li>
+<li>startswith, endswith</li>
+<li>lower(), upper()</li>
+<li>comparison (alphabetic order) : ‘Peter’&gt;’John’ is True.</li>
+</ul>
+<p>Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;  Where is Brian? Brian is in the kitchen.   </span><span class="se">\r\n</span><span class="s2">&quot;</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="c1"># string with leading and trailing whitespaces characters removed</span>
+<span class="n">word_list</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="c1"># list containing the words</span>
+<span class="n">word_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">word_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The sentence contains </span><span class="si">{0}</span><span class="s2"> different words&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word_set</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The words are </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">word_set</span><span class="p">))))</span>
+<span class="k">if</span> <span class="s2">&quot;Brian&quot;</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The word Brian is in the sentence&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-in-python">
+<h3>List in python<a class="headerlink" href="#list-in-python" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">List creation</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">l</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Empty list</span>
+<span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># now l==[3]</span>
+<span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># now l==[3, 4]</span>
+<span class="n">l</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">3.24</span><span class="o">+</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span> <span class="c1"># now l==[3.24+1j,3,4]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Modification of an element</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">23</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The command <code class="docutils literal notranslate"><span class="pre">range(n)</span></code> creates the list
+<code class="docutils literal notranslate"><span class="pre">[0,1,2,</span> <span class="pre">..,</span> <span class="pre">n-2,</span> <span class="pre">n-1]</span></code>. This list starts at <code class="docutils literal notranslate"><span class="pre">0</span></code> et contains
+<code class="docutils literal notranslate"><span class="pre">n</span></code> numbers (it stops at <code class="docutils literal notranslate"><span class="pre">n-1</span></code>).</p>
+</li>
+<li><p class="first">A list can contain elements of any type.</p>
+</li>
+<li><p class="first">To create a list from an existing list, one can use a for loop</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">There is a direct way called <em>list comprehension</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">List comprehension can be used to filter a list</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">my_list</span> <span class="k">if</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">There are two convenient ways to loop through a list :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Pierre&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">elm</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">elm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">elm</span><span class="p">,</span> <span class="s2">&quot; is the item number &quot;</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="s2">&quot; of the list&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>We have introduced the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. It iterates over all the element of the list. It works for any sequence (like the string). This syntax is quite different from other programming language.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>We have seen that is is possible to add an element in the list. We have used the syntax <code class="docutils literal notranslate"><span class="pre">l.append(elm)</span></code>. This is object oriented programming. The name of the object is followed by a dot and the name of the function used (this function is called a <em>method</em>) with its argument. Here, the <code class="docutils literal notranslate"><span class="pre">append</span></code> method is used to add <code class="docutils literal notranslate"><span class="pre">elm</span></code> to the list <code class="docutils literal notranslate"><span class="pre">l</span></code>.</p>
+<p class="last">Furthermore, note that the object <code class="docutils literal notranslate"><span class="pre">l</span></code> point to the same list. This list is modified. It’s like adding a page to a book (or a ring binder). This behaviour is different from the one described in the previous section with the  <code class="docutils literal notranslate"><span class="pre">format</span></code> method on string. In this case, a new string is created and returned by the <code class="docutils literal notranslate"><span class="pre">format</span></code> method. The original string is not modified. The method <code class="docutils literal notranslate"><span class="pre">append</span></code> applied to a list, modify the list and return nothing.</p>
+</div>
+</div>
+<div class="section" id="tuple">
+<h3>Tuple<a class="headerlink" href="#tuple" title="Permalink to this headline">¶</a></h3>
+<p>Tuples are used to collect few objects together. They look like list, but are not mutable (they cannot be modified)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># tuple with first name, name, birthday, and age.</span>
+<span class="n">someone</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Jean&#39;</span><span class="p">,</span> <span class="s1">&#39;Dupont&#39;</span><span class="p">,</span> <span class="s1">&#39;July 13th, 1973&#39;</span><span class="p">,</span> <span class="mi">38</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Name :&#39;</span><span class="p">,</span> <span class="n">someone</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Tuple are used when a function returns more that one value</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fonction</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span><span class="n">x</span><span class="o">**</span><span class="mi">3</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">fonction</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># a is a tuple</span>
+<span class="n">a</span><span class="p">,</span><span class="n">b</span> <span class="o">=</span> <span class="n">fonction</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1"># a-&gt;16 ans b-&gt;64</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dictionary">
+<h3>Dictionary<a class="headerlink" href="#dictionary" title="Permalink to this headline">¶</a></h3>
+<p>In a list or a tuple, elements are indexed by integers. In a dictionary, they are indexed by a key. Usually the key is a string or a number. The example of the previous section is more conveniently implemented using a dictionary</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">someone</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;first_name&quot;</span><span class="p">:</span><span class="s2">&quot;Jean&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Dupont&quot;</span><span class="p">,</span>
+         <span class="s2">&quot;birthday&quot;</span><span class="p">:</span><span class="s2">&quot;Jul 13th, 1973&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span><span class="mi">38</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Name :&quot;</span><span class="p">,</span> <span class="n">someone</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To loop through a dictionary, use the following</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">dct</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="set">
+<h3>Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h3>
+<p>Used to represent an unordered set of different elements. For example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">|</span> <span class="n">b</span> <span class="c1"># union</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span> <span class="c1"># intersection</span>
+</pre></div>
+</div>
+<p>Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pwd</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter a password with at least one punctuation&#39;</span><span class="p">)</span>
+<span class="n">punctuation</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;?,.;:!&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">punctuation</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">pwd</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The password should contain at least one punctuation&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-in-python">
+<h3>Index in Python<a class="headerlink" href="#index-in-python" title="Permalink to this headline">¶</a></h3>
+<p>We have seen the <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code> and  <code class="docutils literal notranslate"><span class="pre">tuple</span></code> data type. They can be indexed. One can get an item using square brackets. In Python, the first element is addressed by <code class="docutils literal notranslate"><span class="pre">0</span></code>. Negative indexed are from the end (<code class="docutils literal notranslate"><span class="pre">l[-i]</span></code> is equivalent to <code class="docutils literal notranslate"><span class="pre">l[len(l)-i]</span></code>). Therefore, the last element is addressed by <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+<p>Slices are used to extract a sub part of a sequence. For example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Hello World&quot;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The slice determined by <code class="docutils literal notranslate"><span class="pre">start:stop</span></code> will return a new object of the same type containing elements from
+<code class="docutils literal notranslate"><span class="pre">start</span></code> to <code class="docutils literal notranslate"><span class="pre">stop</span></code> <strong>excluded</strong>. The length of the new object is <code class="docutils literal notranslate"><span class="pre">stop-start</span></code>. On can use negative numbers. for example <code class="docutils literal notranslate"><span class="pre">s[1:-1]</span></code> will return the string without the first and last letters. If start or stop is omitted, then it is replaced by 0 or the length of the object. For example s[1:] will return a string without the first letter.</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">start:stop(:step)</span></code> notation is a shortcut to index with a <code class="docutils literal notranslate"><span class="pre">slice</span></code> object. The following are equivalent :</p>
+<blockquote>
+<div>s[0:5]
+my_slice = slice(0, 5)
+s[my_slice]</div></blockquote>
+</div>
+<div class="section" id="none">
+<h3>None<a class="headerlink" href="#none" title="Permalink to this headline">¶</a></h3>
+<p>There is a specific object in Python <code class="docutils literal notranslate"><span class="pre">None</span></code>. This is the object returned by function that ended without a return statement. The <code class="docutils literal notranslate"><span class="pre">None</span></code> object is often used as a “flag” to set a specific behaviour. The following <code class="docutils literal notranslate"><span class="pre">log_data</span></code> function (to create a <code class="docutils literal notranslate"><span class="pre">log</span></code> file) can either display the result or save it to a file depending on the value of the <code class="docutils literal notranslate"><span class="pre">file</span></code> argument.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">log_data</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="mutable-objects-arguments-in-functions">
+<h2>Mutable objects / arguments in functions<a class="headerlink" href="#mutable-objects-arguments-in-functions" title="Permalink to this headline">¶</a></h2>
+<p>In Python, a variable is simply an alias for an object that exists in the memory of the computer. An object may have more than one alias.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># Python creates the object #1 containing 3.</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">4</span> <span class="c1"># Python creates the object #2 containing 7</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="c1"># The symbol c point to object #1</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="c1"># The symbol a point to object #2</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">3.14</span> <span class="c1"># The symbol c point to a third object. There is no way</span>
+         <span class="c1"># to point to object #1. Python can delete it.</span>
+</pre></div>
+</div>
+<p>There are two kinds of objects : objects that can be modified (mutable) and those that cannot. List, dictionary or sets are mutable object but numbers or string are not. Let us look to the following example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Line 1 : creation of list#1</li>
+<li>Line 2 : b point to the list#1</li>
+<li>Line 3 : python display item 1 of list#1 : it’s 3</li>
+<li>Line 4 : list#1 is modified</li>
+<li>Line 5 : python display item 1 of list#1 : it’s 4</li>
+<li>Line 6 : creation of list#2. Variable a point to list#2 and b to list#1</li>
+<li>Line 7 : python display item 1 of list#1 : it’s 4</li>
+</ul>
+<p><strong>The instruction a[1] = 4 and the instruction a = [5,6,7,8] are very different. In the first case, the object is modified in the second case a new object is created and linked to variable a</strong></p>
+<p>When a variable is the argument of a function, the mechanism is the same. Inside the function, the variable point to the same object. If this object is modified by the function, it is modified !</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">exemple</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">exemple</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Exercise : which number is displayed ?</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">45</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="local-and-global-variable">
+<h3>Local and global variable<a class="headerlink" href="#local-and-global-variable" title="Permalink to this headline">¶</a></h3>
+<p>Inside a function a variable is either local or global (in Python 3 a new concept of non local variable instead of global as been introduced, but for the following it is equivalent). By default, if there is an assignment inside the function (or if the variable is an argument), it is local. When there is no assignment and the variable is not an argument, the variable is global. By default, when the variable is global, one can read the object pointed out by the variable, one can modify it (but we do not assign a new object to the variable).</p>
+<ul>
+<li><p class="first">Global variable</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Local variable</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Bug (python cannot read the local variable)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">def</span> <span class="nf">example</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>There is a general rule : in a function, a global variable should be a well identified constant (like pi) or a well identified object (like a function). Everything else should be an argument of the function. If your function has to many arguments, consider using an object.</p>
+<div class="section" id="the-global-instruction-in-python">
+<h4>The <code class="docutils literal notranslate"><span class="pre">global</span></code> instruction in Python<a class="headerlink" href="#the-global-instruction-in-python" title="Permalink to this headline">¶</a></h4>
+<p>Forget it !</p>
+</div>
+</div>
+</div>
+<div class="section" id="control-structure">
+<h2>Control structure<a class="headerlink" href="#control-structure" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="for-loop">
+<h3>For loop<a class="headerlink" href="#for-loop" title="Permalink to this headline">¶</a></h3>
+<p>We have introduced the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop with the list. The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop works with object such as list, dict, set, string. With those object, the data are stored in the object and the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop extract those data. The <code class="docutils literal notranslate"><span class="pre">for</span></code> loop work actually in the more general situation of iterable object (iterator). An iterator is an object that can produce the data for the <code class="docutils literal notranslate"><span class="pre">for</span></code> loop. The data can be calculated on the fly.  For example, in python 2, <code class="docutils literal notranslate"><span class="pre">range</span></code> returns a list and <code class="docutils literal notranslate"><span class="pre">xrange</span></code> an iterator. In python 3, the <code class="docutils literal notranslate"><span class="pre">range</span></code> function returns an iterator.</p>
+<p>If you want to iterate over two or more objects at the same time, use the zip command. For example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to the get the index, then use the enumerate instruction :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">s</span><span class="o">=</span><span class="s2">&quot;Point number </span><span class="si">{i}</span><span class="s2"> at coordinate (</span><span class="si">{x}</span><span class="s2">,</span><span class="si">{y}</span><span class="s2">)&quot;</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If you have a list of numbers and you want to iterate on intervals, use the following</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;length = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stop</span><span class="o">-</span><span class="n">start</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Usually you don’t need the index, and we advise not to use the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">book</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">book</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>but, the more human syntax,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">book</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>On can exit from a for loop using the <code class="docutils literal notranslate"><span class="pre">break</span></code> instruction and terminate one iteration using the <code class="docutils literal notranslate"><span class="pre">continue</span></code> instruction. The <code class="docutils literal notranslate"><span class="pre">else</span></code> occurs when the loop ends “normally” (without <code class="docutils literal notranslate"><span class="pre">break</span></code>) :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">ceil</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="p">)))):</span>
+    <span class="k">if</span> <span class="n">p</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">continue</span>
+    <span class="k">if</span> <span class="n">m</span><span class="o">%</span><span class="n">p</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">is_prime</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">break</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">is_prime</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>The following example will be much simpler using a separate function. Indeed, it is possible to leave a function a any time using the return instruction.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="p">)))):</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">%</span><span class="n">p</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generators">
+<h3>Generators<a class="headerlink" href="#generators" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to create you own iterator using a function like syntax : this is a generator. The idea is to replace the <code class="docutils literal notranslate"><span class="pre">return</span></code> by a <code class="docutils literal notranslate"><span class="pre">yield</span></code> statement. Each time the function encounter a <code class="docutils literal notranslate"><span class="pre">yield</span></code> it will retrun the value to the for loop.</p>
+<p>Examples :</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>def simple_generator():</dt>
+<dd>yield 1
+yield 2</dd>
+<dt>def concatenate(liste1, liste2):</dt>
+<dd><dl class="first last docutils">
+<dt>for elm in liste1:</dt>
+<dd>yield elm</dd>
+<dt>for elm in liste2:</dt>
+<dd>yield elm</dd>
+</dl>
+</dd>
+<dt>def matrix_index_generator(N1, N2):</dt>
+<dd><dl class="first last docutils">
+<dt>for i in range(N1):</dt>
+<dd><dl class="first last docutils">
+<dt>for j in range(N2):</dt>
+<dd>yield (i, j)</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+</div>
+<div class="section" id="while-loop">
+<h3>While loop<a class="headerlink" href="#while-loop" title="Permalink to this headline">¶</a></h3>
+<p>There is not much to say about while loop. Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">condition</span><span class="p">:</span>
+    <span class="n">stat1</span>
+    <span class="n">stat2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="if-else">
+<h3>if/else<a class="headerlink" href="#if-else" title="Permalink to this headline">¶</a></h3>
+<p>Example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">cond1</span><span class="p">:</span>
+    <span class="n">stat1</span>
+    <span class="n">stat2</span>
+<span class="k">elif</span> <span class="n">cond2</span><span class="p">:</span>
+    <span class="n">stat3</span>
+    <span class="n">stat4</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">stat5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="function">
+<h3>Function<a class="headerlink" href="#function" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="optional-arguments">
+<h4>Optional arguments<a class="headerlink" href="#optional-arguments" title="Permalink to this headline">¶</a></h4>
+<p>Look to the following function (from <code class="docutils literal notranslate"><span class="pre">scipy.integrate</span></code> module):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quad</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(),</span> <span class="n">full_output</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">epsabs</span><span class="o">=</span><span class="mf">1.49e-8</span><span class="p">,</span>
+         <span class="n">epsrel</span><span class="o">=</span><span class="mf">1.49e-8</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">wvar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wopts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">maxp1</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">limlst</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute a definite integral.</span>
+
+<span class="sd">    ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Using this function, you can change in an explicit way the relative precision of the calculation :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">quad</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">epsrel</span><span class="o">=</span><span class="mf">1E-3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If all your optional arguments are in a dictionary, you can pass them directly using the following syntax :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">option</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;epsrel&quot;</span><span class="p">:</span><span class="mf">1E-3</span><span class="p">,</span> <span class="s1">&#39;limit&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">}</span>
+<span class="n">quad</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">option</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="lambda-function">
+<h4>Lambda function<a class="headerlink" href="#lambda-function" title="Permalink to this headline">¶</a></h4>
+<p>Use to define a function with an expression. It is very usefull when the function is an argument of a function. The syntax is
+<code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">arg1,</span> <span class="pre">arg2,</span> <span class="pre">...:</span> <span class="pre">expr</span></code>.</p>
+<p>Using the previous example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="variable-length-argument-list">
+<h4>Variable length argument list<a class="headerlink" href="#variable-length-argument-list" title="Permalink to this headline">¶</a></h4>
+<p>It is possible to define a function with a variable number or arguments. The general syntax is :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwd</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">kwd</span><span class="p">)</span>
+
+<span class="n">my_function</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">e</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1"># args = (3,4)</span>
+<span class="c1"># kwd = {&#39;e&#39;:3}</span>
+</pre></div>
+</div>
+<p>Inside the function, <code class="docutils literal notranslate"><span class="pre">args</span></code> is a tuple containing unamed arguments and <code class="docutils literal notranslate"><span class="pre">kwd</span></code> is a dictionnary containing the named arguments.</p>
+<p>It is also possible to call a function by splitting a tuple or a dictionnary to make them arguments (or keyword arguments for a dictionnary)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+<span class="n">arg</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+<span class="n">kwd</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">4</span><span class="p">}</span>
+<span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwd</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A typical example of variable length argument list occurs when one wants to pass arguments from one function to another directy. For example, the <code class="docutils literal notranslate"><span class="pre">erf</span></code> function can be calculated by integrating <img class="math" src="_images/math/d95240b7768ce400e2942152b351884c1d7ee139.png" alt="e^{-x^2}"/></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">erf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwd</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwd</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">erf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">epsrel</span><span class="o">=</span><span class="mf">1E-4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="accents-and-non-latin-letters">
+<h2>Accents and non Latin letters<a class="headerlink" href="#accents-and-non-latin-letters" title="Permalink to this headline">¶</a></h2>
+<p>It can be useful to use letters with accent or non Latin letter in Python. The behaviour is very different between Python 2 and Python 3.</p>
+<div class="section" id="ascii">
+<h3>ASCII<a class="headerlink" href="#ascii" title="Permalink to this headline">¶</a></h3>
+<p>The old way to use non English Latin letter was by extending the ASCII. This standard give a number between 0 and 127 to each English letter and usual symbol. The number for 128 to 255 were defined in local standards (for example the Windows-1252 for computer in western Europe - or ISO 8859-1 for linux/unix). Of course local standard are not convenient and from the beginning of the 1990s, the unicode standard was developed.</p>
+</div>
+<div class="section" id="unicode">
+<h3>Unicode<a class="headerlink" href="#unicode" title="Permalink to this headline">¶</a></h3>
+<p>“Unicode is a computing industry standard for the consistent encoding, representation and handling of text expressed in most of the world’s writing systems.” (wikipedia). Basically, unicode give a number to each written letter of all the known language (from the language of mathematics to Egyptian hieroglyphs). For example, the number associate to the “Planck constant over two pi” (<img class="math" src="_images/math/63bdc1a0e2f9cf07b6b645239fb8f9a9db114a6f.png" alt="\hbar"/>) is 8463. A unicode string can therefore be represented by a list of integers. In order to display such a string, the computer need the correct font. A font, will usually cover only a specific part of the unicode standard.</p>
+<p>The main problem is to store (encode) a unicode string in a file.
+Because unicode number are smaller than <img class="math" src="_images/math/67681e25c763a29b77fbd9c4d84b36828f85acba.png" alt="2^{32}"/>, an easy way will be to store each character in 32bits (4 bytes). This will be very convenient, however it will not be compatible with ASCII standard in which one character corresponds to one byte. The UTF-8 encoding solves this problem : if the byte is smaller than 127, it indicates an ASCII character. If not, you have to look to more than one byte to get the unicode character.</p>
+</div>
+<div class="section" id="unicode-in-python-2">
+<h3>Unicode in Python 2<a class="headerlink" href="#unicode-in-python-2" title="Permalink to this headline">¶</a></h3>
+<p>In Python 2, string are ASCII strings. In order to use unicode string, you need to specify it with a leading <code class="docutils literal notranslate"><span class="pre">u</span></code>. Further more, a file is assumed to be ASCII. If your file is a unicode file, you need to specify the encoding at the beginning of the file. This is done in the first or second line of the file with pseudo comment string of the form <code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">-*-</span> <span class="pre">coding:</span> <span class="pre">encoding_name</span> <span class="pre">-*-</span></code>. The default encoding is <code class="docutils literal notranslate"><span class="pre">utf-8</span></code> for linux et probably <code class="docutils literal notranslate"><span class="pre">latin-1</span></code> for windows.</p>
+<p>Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">&quot;Pierre Cladé&quot;</span>
+<span class="nb">print</span> <span class="n">s</span>
+
+<span class="n">hbar</span> <span class="o">=</span> <span class="mf">6.62E-34</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
+<span class="nb">print</span> <span class="sa">u</span><span class="s2">&quot;</span><span class="se">\u210F</span><span class="s2"> = </span><span class="si">{0:5.2e}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hbar</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">unichr``allows</span> <span class="pre">to</span> <span class="pre">programatically</span> <span class="pre">convert</span> <span class="pre">a</span> <span class="pre">number</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">correspnding</span> <span class="pre">unicode</span> <span class="pre">letter.</span> <span class="pre">The</span> <span class="pre">function</span> <span class="pre">``ord</span></code> to the opposite.</p>
+</div>
+<div class="section" id="unicode-in-python-3">
+<h3>Unicode in Python 3<a class="headerlink" href="#unicode-in-python-3" title="Permalink to this headline">¶</a></h3>
+<p>In Python 3, string are by default unicode string. Furthermore, not only strings are unicode, but also the python code can also use unicode. The following code will work using python 3</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">α</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">137.035990</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The value of the fine structure constant is </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">α</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>We strongly advise to limit the use of unicode to string and not to the python code as in the example above. Indeed, two different unicode characters can be displayed the same way</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Α</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Α</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In python 3, use <code class="docutils literal notranslate"><span class="pre">chr</span></code> to programatically convert a number to the corresponding unicode letter</p>
+<p>In python 3, unicode string are used to represent text strings. In order to represent a list of bytes, a new type has been introduced, called byte strings. They can be created directly with the <code class="docutils literal notranslate"><span class="pre">b</span></code> prefix</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sa">b</span><span class="s1">&#39;This is a byte string&#39;</span>
+</pre></div>
+</div>
+<p>Byte strings are used when dealing with communication at low level (TCP/IP socket or communication with an instrument). To convert a string to bytecode and vice versa , use the encode and decode methods :</p>
+<blockquote>
+<div>“α = 1/137”.encode(‘utf-8’)
+b’xcexb1 = 1/137’.decode(‘utf-8’)</div></blockquote>
+</div>
+</div>
+<div class="section" id="files-and-file-like-objects">
+<h2>Files and file like objects<a class="headerlink" href="#files-and-file-like-objects" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="files">
+<h3>Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
+<p>Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/test&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="c1">#</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Bonjour&#39;</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/test&#39;</span><span class="p">)</span> <span class="c1"># default is reading</span>
+<span class="nb">print</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The open function creates a file object. The second argument is used to say if we want do write (‘w’) or read (‘r’) the file. The file objects has several methods :</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">write(str)</span></code> : To write one string in the file</li>
+<li><code class="docutils literal notranslate"><span class="pre">read</span></code> : To read all the file. <code class="docutils literal notranslate"><span class="pre">read(n)</span></code> to read a given number of characters.</li>
+<li><code class="docutils literal notranslate"><span class="pre">readline</span></code> : read one line of the file</li>
+<li><code class="docutils literal notranslate"><span class="pre">realines</span></code> : return a list with one item per line.</li>
+</ul>
+</div>
+<div class="section" id="with-statement">
+<h3>With statement<a class="headerlink" href="#with-statement" title="Permalink to this headline">¶</a></h3>
+<p>The with statement is a relatively new syntax in Python</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;x.txt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">do_something</span>
+</pre></div>
+</div>
+<p>The with statement will take care of closing at the end of the instructions, even if an error occurs.</p>
+</div>
+<div class="section" id="file-like-objects">
+<h3>File like objects<a class="headerlink" href="#file-like-objects" title="Permalink to this headline">¶</a></h3>
+<p>Many interface are similar to files and works the same way.</p>
+<p>For example, you can open a url using the urllib and read its content</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="c1">#Open Sherlock Holmes an count in how many lines there is the word Holmes</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www.gutenberg.org/cache/epub/1661/pg1661.txt&quot;</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">cpt</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s1">&#39;Holmes&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+        <span class="n">cpt</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nb">print</span> <span class="s1">&#39;The book contains </span><span class="si">{0}</span><span class="s1"> times the word Holmes&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cpt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Common text based interface to instrument (like RS232, VISA, GPIB, …) works also like a file :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">visa</span>
+
+<span class="n">inst</span> <span class="o">=</span> <span class="n">visa</span><span class="o">.</span><span class="n">GPIBInstrument</span><span class="p">(</span><span class="s1">&#39;GIPB::19&#39;</span><span class="p">)</span>
+<span class="n">inst</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;*IDN?</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">inst</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+
+
+<span class="kn">import</span> <span class="nn">serial</span>
+
+<span class="n">verdi</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="s1">&#39;COM7&#39;</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">19200</span><span class="p">)</span>
+<span class="n">verdi</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;?P</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">power</span> <span class="o">=</span> <span class="n">verdi</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p>At the beginning of this chapter, we have created a function to calculate the exponential. How to use this <code class="docutils literal notranslate"><span class="pre">exp</span></code> from another file ? A solution could be the execute the file from the script. However, there is a much more convenient technique in python. The function be can imported using the command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">exponentielle</span> <span class="k">import</span> <span class="n">exp</span>
+</pre></div>
+</div>
+<p>We do not put the <code class="docutils literal notranslate"><span class="pre">.py</span></code> file extension. Using modules has many advantages :</p>
+<ul class="simple">
+<li>If the module was already imported, python do not execute the file a second time.</li>
+<li>One can choose what we want to import in the module.</li>
+<li>Python can automatically looks for different paths to find the file.</li>
+</ul>
+<p>Python is not a general purpose language. All the function that are specific are defined in a module.
+Mathematical function (and constants) are in the math module.</p>
+<p>They can be imported in different ways :</p>
+<ul>
+<li><p class="first">Import of the module</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="nb">print</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Import of specific objects in the module</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">pi</span>
+<span class="nb">print</span> <span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Import of all the objects defined in the module</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="o">*</span>
+<span class="nb">print</span> <span class="n">sin</span><span class="p">(</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The first method is more verbose because we have to specify the module name every time. However, we have to use this method in our example if we want to compare the exp function from two different modules.</p>
+<p>In general, the second method should be preferred over the third one. Indeed, when all the functions are imported it is not easy then to know from which module the function was imported. Furthermore, this import can override existing function (for example, there is an <code class="docutils literal notranslate"><span class="pre">open</span></code> function is the module <code class="docutils literal notranslate"><span class="pre">os</span></code>. Therefore the command <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">os</span> <span class="pre">import</span> <span class="pre">*</span></code> will override the standard <code class="docutils literal notranslate"><span class="pre">open</span></code> function).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">*</span></code> can be used for module with <strong>well known functions</strong> that are used <strong>many times</strong> in a program. This is the case for the <code class="docutils literal notranslate"><span class="pre">math</span></code> module.</p>
+</div>
+<div class="section" id="package">
+<h2>Package<a class="headerlink" href="#package" title="Permalink to this headline">¶</a></h2>
+<p>A package is a group of module (in other language it is called a library).</p>
+<p>Many package are available on the Pypy web site. The <code class="docutils literal notranslate"><span class="pre">pip</span></code> shell command can be used to download and install the package on your computer. For example if you want to install the PyDAQmx package, simply run the command :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">PyDAQmx</span>
+</pre></div>
+</div>
+<p>If you don’t have root permission, then use the <code class="docutils literal notranslate"><span class="pre">--user</span></code> option.</p>
+<p>If the package is not available on Pypi, then the usual way consist in downloading the package and then install it by running the setup script :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pypi</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">packages</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">P</span><span class="o">/</span><span class="n">PyDAQmx</span><span class="o">/</span><span class="n">PyDAQmx</span><span class="o">-</span><span class="mf">1.3</span><span class="o">.</span><span class="mf">2.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">xvzf</span> <span class="n">PyDAQmx</span><span class="o">-</span><span class="mf">1.3</span><span class="o">.</span><span class="mf">2.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+<span class="n">cd</span> <span class="n">PyDAQmx</span><span class="o">-</span><span class="mf">1.3</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span> <span class="o">--</span><span class="n">user</span>
+</pre></div>
+</div>
+<p>A package is a collection of modules and sub-packages. In order to create a package, you simply have to put the files into the same directory (called for example <code class="docutils literal notranslate"><span class="pre">my_package</span></code>). Python will know that this directory is a package if there is a file called <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> in the directory. This file can be empty.</p>
+<p>In order to import the modules, you can then do <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">my_package.mod1</span></code> or <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">my_package</span> <span class="pre">import</span> <span class="pre">mod1</span></code>, …</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> is a python module whose content is imported by <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">my_package</span> <span class="pre">import</span> <span class="pre">...</span></code>.</p>
+<p>Python will be able to import “my_package” :</p>
+<blockquote>
+<div><ul>
+<li><p class="first">If your current working directory is the directory containing the “my_package” directory</p>
+</li>
+<li><p class="first">If this directory is in your search path. You can dynamically a directory into the search path using the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;directory/containing/my_package&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">If your directory is in the the “PYTHONPATH” environment variable.</p>
+</li>
+<li><p class="first">If you have installed your package (see instruction bellow).</p>
+</li>
+</ul>
+</div></blockquote>
+<p>Inside a package, it is common to import modules or sub-packages, for example in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> file. This is a local import. You should indicate to python that an import is local by prefixing the module name with a dot. For example, in the <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> of my_package</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.mod1</span> <span class="k">import</span> <span class="n">my_function</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">mod1</span>
+<span class="n">mod1</span><span class="o">.</span><span class="n">my_function</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you are in a sub-package, then you can import from the parent package using two (or more) dots.</p>
+<p>It is easy to create you package and distribute it. You have to write a setup.py file containing some informations about your package. Then Python will take care of everything. The setup.py file should be in the same directory as the “my_package” directory. A minimal example of a setup.py file is the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf_8 -*-</span>
+
+<span class="kn">from</span> <span class="nn">distutils.core</span> <span class="k">import</span> <span class="n">setup</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;alpha&quot;</span>
+
+<span class="n">long_description</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;This is a very nice package</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">setup</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;my_package&#39;</span><span class="p">,</span>
+      <span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">,</span>
+      <span class="n">description</span><span class="o">=</span><span class="s1">&#39;A very nice package&#39;</span><span class="p">,</span>
+      <span class="n">author</span><span class="o">=</span><span class="sa">u</span><span class="s1">&#39;François Pignon&#39;</span><span class="p">,</span>
+      <span class="n">author_email</span><span class="o">=</span><span class="s1">&#39;francois.pignon@trucmuch.fr&#39;</span><span class="p">,</span>
+      <span class="n">url</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="n">packages</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;my_package&#39;</span><span class="p">],</span>
+     <span class="p">)</span>
+</pre></div>
+</div>
+<p>Then you can execute the following commands :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span> <span class="c1"># Install the package</span>
+<span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">sdist</span> <span class="c1"># create a tar.gz or zip of your package</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="o">.</span> <span class="o">--</span><span class="n">user</span>
+</pre></div>
+</div>
+<p>The last command is very useful for developers. It installs the project in editable mode, which means that modification of the project files will be taken into account (a simple install will copy the files to another place).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">twine</span></code> library allows you to publish you packages on Pypi in an easy way :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twine</span> <span class="n">upload</span> <span class="n">dist</span><span class="o">/*</span>
+</pre></div>
+</div>
+<p>If you want to make test, then you can use the test.pypi.org instance :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twine</span> <span class="n">upload</span> <span class="o">--</span><span class="n">repository</span><span class="o">-</span><span class="n">url</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">test</span><span class="o">.</span><span class="n">pypi</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">legacy</span><span class="o">/</span> <span class="n">dist</span><span class="o">/*</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="error-and-exception">
+<h2>Error and Exception<a class="headerlink" href="#error-and-exception" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="error">
+<h3>Error<a class="headerlink" href="#error" title="Permalink to this headline">¶</a></h3>
+<p>You should read and <strong>understand</strong> errors of Python. Python always indicate the line of the error, except when there is a syntax error (see examples bellow).</p>
+<p>Examples of common error</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">sqrt</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">sin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span>
+<span class="n">Delta</span> <span class="o">=</span> <span class="n">b</span><span class="o">**</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">a</span><span class="o">*</span><span class="n">c</span>
+<span class="n">root1</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+<span class="n">root2</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">b</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">Delta</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">a</span><span class="p">)</span>
+
+<span class="n">mylist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">34</span><span class="p">]</span>
+<span class="nb">print</span> <span class="n">mylist</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="mi">1</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;Hello&#39;</span>
+   <span class="nb">print</span> <span class="s1">&#39;World&quot;</span>
+
+<span class="k">if</span> <span class="mi">1</span><span class="o">==</span><span class="mi">1</span>
+    <span class="nb">print</span> <span class="s1">&#39;Hello World&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="try-except">
+<h3>Try … except<a class="headerlink" href="#try-except" title="Permalink to this headline">¶</a></h3>
+<p>In Python, it is possible to catch an error an have a specific behaviour. This is usually a very efficient way of dealing with specific cases. For example, if you want to take the sqrt of a negative number, python will throw a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> exception. You can then handle the specific case :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Of course this example can be solved with a if else statement. Let’s look to the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;/tmp/balbla&quot;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="s1">&#39;The file does not exists&#39;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Or the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;/tmp/balbla&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="s1">&#39;The file does not exists&#39;</span>
+</pre></div>
+</div>
+<p>The second example is more safe : the execution of the program can be interrupted at any time by the OS to run another process. What happens if the file is deleted between the test and the open? The second example is also faster : the test is always performed by the open function, there is no reasons to make it twice. There is no overhead in using a try.</p>
+</div>
+<div class="section" id="raise-exception">
+<h3>Raise exception<a class="headerlink" href="#raise-exception" title="Permalink to this headline">¶</a></h3>
+<p>It is possible to create you own exception.</p>
+<p>Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">asin</span>
+
+<span class="k">def</span> <span class="nf">snell_descartes</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+    <span class="n">sin_theta2</span> <span class="o">=</span> <span class="n">n2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span><span class="o">/</span><span class="n">n1</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sin_theta2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Total internal reflection not allowed&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">asin</span><span class="p">(</span><span class="n">sin_theta2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or using try/except :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">asin</span>
+
+<span class="k">def</span> <span class="nf">snell_descartes</span><span class="p">(</span><span class="n">theta1</span><span class="p">,</span> <span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+    <span class="n">sin_theta2</span> <span class="o">=</span> <span class="n">n2</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">theta2</span><span class="p">)</span><span class="o">/</span><span class="n">n1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">asin</span><span class="p">(</span><span class="n">sin_theta2</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Total internal reflection not allowed&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can of course use the <code class="docutils literal notranslate"><span class="pre">snell_descartes</span></code> in a try except. It is possible to create your own error (like IOError, ValueError).</p>
+<p><strong>Exercise :</strong> Create a function <code class="docutils literal notranslate"><span class="pre">second_order_equation</span></code> that solves the equation <img class="math" src="_images/math/4ff194f1a7a5a72eb5d97142b1267ce1d818fc01.png" alt="ax^2 + bx + c = 0"/>. This function will have an optional argument allow_complex that if true return complex roots else raise a ValueError exception.</p>
+</div>
+</div>
+<div class="section" id="assert-and-test">
+<h2>Assert and test<a class="headerlink" href="#assert-and-test" title="Permalink to this headline">¶</a></h2>
+<p>A very good practice in programming is to always test your functions. Some programming guide says that you should write your test before writing your functions. We advise at least to write them at the same time. Specific modules exist on Python to deal with automatic tests (like the unittest module). This is beyond the scope of this introduction.</p>
+<p>Let us look at an example. Imagine that you want to write your own sqrt function. You should test that it works for positive number and give an error for negative. The best way to test is to use the assert statement (see below).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span>
+
+<span class="k">def</span> <span class="nf">my_sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">random</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="n">my_sqrt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">==</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;The my_sqrt functions does not</span><span class="se">\</span>
+<span class="s2">return the square root&quot;</span>
+
+    <span class="k">try</span> <span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;The my_sqrt function does not raise</span><span class="se">\</span>
+<span class="s1">an error for negative numbers&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Testing you code on simple examples helps you to build large projects. By writing tests, you can always check that there are no side effects due to modifications you are doing on the code.</p>
+<p><strong>Exercise :</strong> Create a full test for the <code class="docutils literal notranslate"><span class="pre">second_order_equation</span></code> equation written above.</p>
+</div>
+<div class="section" id="the-python-standard-library">
+<h2>The Python standard library<a class="headerlink" href="#the-python-standard-library" title="Permalink to this headline">¶</a></h2>
+<p>The Python standard library (<a class="reference external" href="https://docs.python.org/2/library/">https://docs.python.org/2/library/</a>) contains tens of modules that allows to perform usual operations. Below is a list of usefull modules for every day programming. It does not include modules specific to scientific calculation because they are not part of the standard library.</p>
+<ul class="simple">
+<li>string — Common string operations</li>
+<li>re — Regular expression operations</li>
+<li>datetime — Basic date and time types</li>
+<li>math — Mathematical functions</li>
+<li>shutil — High-level file operations</li>
+<li>os — Miscellaneous operating system interfaces</li>
+<li>logging — Logging facility for Python</li>
+<li>email — An email and MIME handling package</li>
+<li>sys — System-specific parameters and functions</li>
+<li>urllib — Open arbitrary resources by URL</li>
+<li>time — Time access and conversions</li>
+</ul>
+<div class="section" id="regular-expressions">
+<h3>Regular expressions<a class="headerlink" href="#regular-expressions" title="Permalink to this headline">¶</a></h3>
+<p>A regular expression is a string that describe a set of possible strings. For example on unix shell, the <code class="docutils literal notranslate"><span class="pre">*</span></code> mean any sequence of characters (<code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">*.jpg</span> <span class="pre">directory</span></code> will copy all the jpeg files to the given directory).</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">re</span></code> package of python, there is specific syntax that should be used to describe regular expression. This syntax is described in the documentation <code class="docutils literal notranslate"><span class="pre">https://docs.python.org/2/library/re.html</span></code>.</p>
+<p>For example, I want to parse a date given by a string like “01-02-2013”. In English, this is described as two digits followed by a <code class="docutils literal notranslate"><span class="pre">-</span></code> then two digits another <code class="docutils literal notranslate"><span class="pre">-</span></code> and four digits. The <code class="docutils literal notranslate"><span class="pre">\d</span></code> should be used to describe a digit. The date will follow the following regular expression : <code class="docutils literal notranslate"><span class="pre">\d\d-\d\d-\d\d\d\d</span></code>. This can match exactly the previous string. But if you want to allow more or less digits (like “1-2-2015”) you can use the <code class="docutils literal notranslate"><span class="pre">+</span></code> : the regular expression <code class="docutils literal notranslate"><span class="pre">\d+-\d+\d+</span></code> means one or more digits followed by a dash and so on.</p>
+<p>The re package allow you to test if a string matches a regular expression</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;11-02-1980&#39;</span>
+<span class="n">date2</span> <span class="o">=</span> <span class="s2">&quot;Feb. 11, 1980&quot;</span>
+
+<span class="nb">print</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;\d\d-\d\d-\d\d\d\d&quot;</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span> <span class="c1"># return something</span>
+<span class="nb">print</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;\d\d-\d\d-\d\d\d\d&quot;</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span> <span class="c1"># return nothing</span>
+</pre></div>
+</div>
+<p>Of course it is very useful once a string match the regular expression to extract the relevant information. This can be done by grouping the pattern in parenthesis. And then use the groups method of the result.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;11-02-1980&#39;</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;(\d\d)-(\d\d)-(\d\d\d\d)&quot;</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">result</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># print the first group</span>
+</pre></div>
+</div>
+<p>Or, using a more explicit syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;11-02-1980&#39;</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;(?P&lt;day&gt;\d\d)-(?P&lt;month&gt;\d\d)-(?P&lt;year&gt;\d\d\d\d)&quot;</span><span class="p">,</span>
+                <span class="n">date</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">result</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;day&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is a very short introduction to the regular expression. Look to the documentation for more detailled.</p>
+<p><strong>Exercice :</strong> A directory contains a number of file likes IMAGE001.jpg, IMAGE002.png and so one. Create a function that check if a file name satisfy the following pattern and return the image number (the extension are case insensitive and given in a liste : .jpg, .png, .pdf, .jpeg). Create a function which from a given directory returns next available number (use &nbsp;<code class="docutils literal notranslate"><span class="pre">os.listdir</span></code>).</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction to Python</a><ul>
+<li><a class="reference internal" href="#the-python-language">The Python language</a></li>
+<li><a class="reference internal" href="#a-taste-of-python">A taste of Python</a></li>
+<li><a class="reference internal" href="#how-to-execute-python-code">How to execute Python code</a></li>
+<li><a class="reference internal" href="#variable-in-python">Variable in Python</a></li>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#data-types-in-python">Data types in Python</a><ul>
+<li><a class="reference internal" href="#numbers">Numbers</a></li>
+<li><a class="reference internal" href="#boolean-and-comparison">Boolean and comparison</a></li>
+<li><a class="reference internal" href="#strings">Strings</a></li>
+<li><a class="reference internal" href="#list-in-python">List in python</a></li>
+<li><a class="reference internal" href="#tuple">Tuple</a></li>
+<li><a class="reference internal" href="#dictionary">Dictionary</a></li>
+<li><a class="reference internal" href="#set">Set</a></li>
+<li><a class="reference internal" href="#index-in-python">Index in Python</a></li>
+<li><a class="reference internal" href="#none">None</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mutable-objects-arguments-in-functions">Mutable objects / arguments in functions</a><ul>
+<li><a class="reference internal" href="#local-and-global-variable">Local and global variable</a><ul>
+<li><a class="reference internal" href="#the-global-instruction-in-python">The <code class="docutils literal notranslate"><span class="pre">global</span></code> instruction in Python</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#control-structure">Control structure</a><ul>
+<li><a class="reference internal" href="#for-loop">For loop</a></li>
+<li><a class="reference internal" href="#generators">Generators</a></li>
+<li><a class="reference internal" href="#while-loop">While loop</a></li>
+<li><a class="reference internal" href="#if-else">if/else</a></li>
+<li><a class="reference internal" href="#function">Function</a><ul>
+<li><a class="reference internal" href="#optional-arguments">Optional arguments</a></li>
+<li><a class="reference internal" href="#lambda-function">Lambda function</a></li>
+<li><a class="reference internal" href="#variable-length-argument-list">Variable length argument list</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#accents-and-non-latin-letters">Accents and non Latin letters</a><ul>
+<li><a class="reference internal" href="#ascii">ASCII</a></li>
+<li><a class="reference internal" href="#unicode">Unicode</a></li>
+<li><a class="reference internal" href="#unicode-in-python-2">Unicode in Python 2</a></li>
+<li><a class="reference internal" href="#unicode-in-python-3">Unicode in Python 3</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#files-and-file-like-objects">Files and file like objects</a><ul>
+<li><a class="reference internal" href="#files">Files</a></li>
+<li><a class="reference internal" href="#with-statement">With statement</a></li>
+<li><a class="reference internal" href="#file-like-objects">File like objects</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#modules">Modules</a></li>
+<li><a class="reference internal" href="#package">Package</a></li>
+<li><a class="reference internal" href="#error-and-exception">Error and Exception</a><ul>
+<li><a class="reference internal" href="#error">Error</a></li>
+<li><a class="reference internal" href="#try-except">Try … except</a></li>
+<li><a class="reference internal" href="#raise-exception">Raise exception</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#assert-and-test">Assert and test</a></li>
+<li><a class="reference internal" href="#the-python-standard-library">The Python standard library</a><ul>
+<li><a class="reference internal" href="#regular-expressions">Regular expressions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Python for scientists</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="index_numpy.html"
+                        title="next chapter">Numerical calculation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/python_basis.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index_numpy.html" title="Numerical calculation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Python for scientists"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

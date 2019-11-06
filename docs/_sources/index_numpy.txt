@@ -1,0 +1,18 @@
+=====================
+Numerical calculation 
+=====================
+
+.. toctree::
+   :maxdepth: 2
+
+   numpy
+   exo_numpy
+   graphique
+   exo_graphique
+   fit
+   exo_fit
+   equadiff
+   exo_equadiff
+   fourier
+   exo_fourier
+

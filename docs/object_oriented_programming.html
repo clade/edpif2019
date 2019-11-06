@@ -1,0 +1,338 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Object oriented programming &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pauli matrices" href="exo_oo.html" />
+    <link rel="prev" title="Object oriented programming" href="index_oo.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="exo_oo.html" title="Pauli matrices"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index_oo.html" title="Object oriented programming"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_oo.html" accesskey="U">Object oriented programming</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="object-oriented-programming">
+<h1>Object oriented programming<a class="headerlink" href="#object-oriented-programming" title="Permalink to this headline">¶</a></h1>
+<p>In python all variables (including functions) are objects. We have already seen some concepts of object oriented programming : attributes and methods. Let us look to complex numbers</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="n">J</span>
+<span class="nb">print</span> <span class="n">z</span><span class="o">.</span><span class="n">real</span> <span class="c1"># this is an attribute</span>
+<span class="n">zconj</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span> <span class="c1"># this is a method</span>
+</pre></div>
+</div>
+<p>The type of the object referenced by the variable <code class="docutils literal notranslate"><span class="pre">z</span></code> is a complex number. It means that somewhere a <code class="docutils literal notranslate"><span class="pre">class</span></code> defined what a complex number is.</p>
+<div class="section" id="first-example">
+<h2>First example<a class="headerlink" href="#first-example" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="building-a-class">
+<h3>Building a class<a class="headerlink" href="#building-a-class" title="Permalink to this headline">¶</a></h3>
+<p>Let us look how to create our own <code class="docutils literal notranslate"><span class="pre">Complex</span></code> class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Complex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">2.</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, we have created the class. The init method is called when the object is created and it sets the atributes <code class="docutils literal notranslate"><span class="pre">real</span></code> and <code class="docutils literal notranslate"><span class="pre">imag</span></code> of the complex number.</p>
+<p>On can write the conjugate methode and add other methods:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Complex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">conjugate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">modulus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">z</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mf">2.</span><span class="p">)</span>
+<span class="n">conjz</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="special-methods-str-and-repr">
+<h3>Special methods __str__ and __repr__<a class="headerlink" href="#special-methods-str-and-repr" title="Permalink to this headline">¶</a></h3>
+<p>The __str__ and __repr__ method are used to create a string for simplified printing (__str__) or full representation (__repr__).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2"> + </span><span class="si">{1}</span><span class="s2">J)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{0}</span><span class="s2"> - </span><span class="si">{1}</span><span class="s2">J)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;Complex(</span><span class="si">{0}</span><span class="s2">, </span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="special-methods-for-binary-operation">
+<h3>Special methods for binary operation<a class="headerlink" href="#special-methods-for-binary-operation" title="Permalink to this headline">¶</a></h3>
+<p>The __add__, __mul__, __sub__ and __div__ (and __truediv__) methods are used to implement addition, multiplication, substraction and division. Let us implement the __add__ method</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method will let us add two complex numbers using the ‘+’ sign.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="instrument-driver">
+<h2>Instrument Driver<a class="headerlink" href="#instrument-driver" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="driving-instruments-using-objects">
+<h3>Driving instruments using objects<a class="headerlink" href="#driving-instruments-using-objects" title="Permalink to this headline">¶</a></h3>
+<p>Example of a laser driver</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Verdi</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Verdi driver class</span>
+
+<span class="sd">    example :</span>
+<span class="sd">        laser = Verdi(&#39;COM7&#39;)</span>
+<span class="sd">        laser.set_power(15)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; ...  &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial_connection</span> <span class="o">=</span> <span class="n">serial</span><span class="o">.</span><span class="n">Serial</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">baudrate</span><span class="o">=</span><span class="mi">19200</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">read_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;?</span><span class="si">{0}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serial_connection</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">write_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">serial_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">:</span><span class="si">{1}</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">val</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">get_power</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_cmd</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">set_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_cmd</span><span class="p">(</span><span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{0:6.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val</span><span class="p">))</span>
+
+<span class="n">laser</span> <span class="o">=</span> <span class="n">Verdi</span><span class="p">(</span><span class="s1">&#39;COM7&#39;</span><span class="p">)</span>
+<span class="n">laser</span><span class="o">.</span><span class="n">set_power</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="when-are-objects-useful">
+<h2>When are objects useful ?<a class="headerlink" href="#when-are-objects-useful" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Classes provide high level information. In the previous example, all the information concerning the connection are inside the object.</li>
+<li>Implementation details are hiden (the user do not have to know how to connect to a serial port).</li>
+<li>The object version allows the code to pass many fewer variable (to set the power, we only give the power and not the port, baudrate or the brand of the instrument).</li>
+<li>The object version is better organized (all the function are grouped inside the class)</li>
+<li>The object version is more versatile : the user interface does not depend on the specific instrument. For example if you write a Millenia class, then you can use your programm for a Millenia by changing only one line (laser = Verdi(…) is replaced by laser = Millenia(…) ).</li>
+</ul>
+</div>
+<div class="section" id="tutorial-on-classes">
+<h2>Tutorial on classes<a class="headerlink" href="#tutorial-on-classes" title="Permalink to this headline">¶</a></h2>
+<p>The web page <a class="reference external" href="https://docs.python.org/2/tutorial/classes.html">https://docs.python.org/2/tutorial/classes.html</a> contains an interesting tutorial on classes.</p>
+</div>
+<div class="section" id="customizing-object">
+<h2>Customizing object<a class="headerlink" href="#customizing-object" title="Permalink to this headline">¶</a></h2>
+<p>We have already seen some special methods used to customize object. The data model of Python (<a class="reference external" href="https://docs.python.org/2/reference/datamodel.html">https://docs.python.org/2/reference/datamodel.html</a>) describes all the special methods. They are used to customize the way object are displayed or compared with another. They are also used to mimic different type like the numeric type, containers type (list, dictionnary, …), callable (function).</p>
+<p>Two builtins functions are usefull when dealing with object : the function <code class="docutils literal notranslate"><span class="pre">isinstance(obj,</span> <span class="pre">cls)</span></code> tests if <code class="docutils literal notranslate"><span class="pre">obj</span></code> is an instance of <code class="docutils literal notranslate"><span class="pre">cls</span></code>. The <code class="docutils literal notranslate"><span class="pre">hasattr(obj,</span> <span class="pre">attr_name)</span></code> function test if <code class="docutils literal notranslate"><span class="pre">obj</span></code> has an attribute called <code class="docutils literal notranslate"><span class="pre">attr_name</span></code>.</p>
+<p>When creating a numeric like object, consider also the implementation of reversed operator. When python see <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code> then it call the method <code class="docutils literal notranslate"><span class="pre">__add__</span></code> on object <code class="docutils literal notranslate"><span class="pre">a</span></code>. In the example of Complex number that we have seen, we have implemented the addition of two Complex number. We can also modify the method <code class="docutils literal notranslate"><span class="pre">__add__</span></code> to be able to add a number to a Complex number (a is Complex but b is a number). We cannot modify the method <code class="docutils literal notranslate"><span class="pre">__add__</span></code> of float (for example) so that we can add a Complex number to a float (a is a float). The way to do it is to implement the __radd__ (reversed add) method. Below is the way to do implement the addition for Complex :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numbers</span>
+
+<span class="k">class</span> <span class="nc">Complex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">):</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Complex</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">real</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="o">+</span><span class="n">other</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="bp">NotImplemented</span>
+    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">other</span> <span class="c1"># addition is commutative</span>
+</pre></div>
+</div>
+<p>If the operation is not implemented, you should raise a <code class="docutils literal notranslate"><span class="pre">NotImplemented</span></code> error. This error will be catched by the interpreter to try the reverse operation.</p>
+</div>
+<div class="section" id="properties">
+<h2>Properties<a class="headerlink" href="#properties" title="Permalink to this headline">¶</a></h2>
+<p>Classes implements different kinds of attributes : data attributes are used to store variables inside the object. Methods are used to call function that depends on the object and other arguments. Methods are use to perform an actions : modifying the object, performing calculations, …</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">3</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">x</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">y</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">y</span><span class="o">.</span><span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">x</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">a</span>
+<span class="nb">print</span> <span class="n">x</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">b</span>
+<span class="nb">print</span> <span class="n">x</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">d</span>
+</pre></div>
+</div>
+<p>In this example, <code class="docutils literal notranslate"><span class="pre">c</span></code>, <code class="docutils literal notranslate"><span class="pre">d</span></code>, <code class="docutils literal notranslate"><span class="pre">e</span></code> are data attribute (they are linked to the object). But, <code class="docutils literal notranslate"><span class="pre">a</span></code> and <code class="docutils literal notranslate"><span class="pre">b</span></code> are class attribute. When one call <code class="docutils literal notranslate"><span class="pre">x.a</span></code>, because <code class="docutils literal notranslate"><span class="pre">a</span></code> is not a data attribute, then the interpreter look for the class, find a valide class attribute and return it. In the above example, <code class="docutils literal notranslate"><span class="pre">x.b</span></code> and <code class="docutils literal notranslate"><span class="pre">y.b</span></code> will be the same object, but not <code class="docutils literal notranslate"><span class="pre">x.d</span></code> and <code class="docutils literal notranslate"><span class="pre">y.d</span></code>. Assignement will always create a data attribute.</p>
+<p>Basically, functions defined in the class are converted to methods. In the above example,  <code class="docutils literal notranslate"><span class="pre">MyClass.f</span></code> is the original function and <code class="docutils literal notranslate"><span class="pre">x.f</span></code> is the method, i.e. a new funcion with <code class="docutils literal notranslate"><span class="pre">x</span></code> as first paramter.</p>
+<p>Properties is another kind of attribute. When a method (without arguments) is used to get information from the object, the value return from this method is similar to an attribute. For example, complex number were described using real and imaginary part. To get the modulus of the complex number, we have used a method. But if the complex number were represented using a polar representation, then the norm would be an attribute. Using property allows to hide this implementation detail.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Complex</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">theta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Complex number should be defined</span><span class="se">\</span>
+<span class="s1">                          using either x and y or r and theta&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">r</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">r</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">modulus</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">theta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r</span><span class="o">*</span><span class="n">other</span><span class="o">.</span><span class="n">r</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">theta</span>
+        <span class="k">return</span> <span class="n">Complex</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Properties are also usefull when you want to perform an action when an attribute is set. For example, using the Verdi class defined above, we can create the power property with a setter and a getter :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Verdi</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="k">def</span> <span class="nf">get_power</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="k">def</span> <span class="nf">set_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="o">...</span>
+
+    <span class="n">power</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_power</span><span class="p">,</span> <span class="n">set_power</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;blabla&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can use this object like this :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">laser</span> <span class="o">=</span> <span class="n">Verdi</span><span class="p">(</span><span class="s1">&#39;COM7&#39;</span><span class="p">)</span>
+
+<span class="n">laser</span><span class="o">.</span><span class="n">power</span> <span class="o">=</span> <span class="mi">15</span> <span class="c1"># Set the laser power to 15 W</span>
+<span class="nb">print</span> <span class="n">laser</span><span class="o">.</span><span class="n">power</span> <span class="c1"># Return the actual power of the laser</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Permalink to this headline">¶</a></h2>
+<p>One of the main feature of object oriented programming is the possibility for classes to heritate from other classes. When a class B heritates from class A, then all attributes of class A are avalailable for class B. Actually, we have already used heritage, as the every object heritates from the class <code class="docutils literal notranslate"><span class="pre">object</span></code>. For example, by default, every object have a method called <code class="docutils literal notranslate"><span class="pre">__repr__</span></code>.</p>
+<p>In a typical situation, a class heritated from a single class. This situation occurs when one wants to specialize a class. For example, one can create a <code class="docutils literal notranslate"><span class="pre">Imaginary</span></code> number class. Such a number, will be a complex number, but the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and <code class="docutils literal notranslate"><span class="pre">__str__</span></code> method can be changed :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Imaginary</span><span class="p">(</span><span class="n">Complex</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Complex</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">J&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Object oriented programming</a><ul>
+<li><a class="reference internal" href="#first-example">First example</a><ul>
+<li><a class="reference internal" href="#building-a-class">Building a class</a></li>
+<li><a class="reference internal" href="#special-methods-str-and-repr">Special methods __str__ and __repr__</a></li>
+<li><a class="reference internal" href="#special-methods-for-binary-operation">Special methods for binary operation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#instrument-driver">Instrument Driver</a><ul>
+<li><a class="reference internal" href="#driving-instruments-using-objects">Driving instruments using objects</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#when-are-objects-useful">When are objects useful ?</a></li>
+<li><a class="reference internal" href="#tutorial-on-classes">Tutorial on classes</a></li>
+<li><a class="reference internal" href="#customizing-object">Customizing object</a></li>
+<li><a class="reference internal" href="#properties">Properties</a></li>
+<li><a class="reference internal" href="#inheritance">Inheritance</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index_oo.html"
+                        title="previous chapter">Object oriented programming</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="exo_oo.html"
+                        title="next chapter">Pauli matrices</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/object_oriented_programming.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="exo_oo.html" title="Pauli matrices"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index_oo.html" title="Object oriented programming"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_oo.html" >Object oriented programming</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

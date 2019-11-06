@@ -1,0 +1,13 @@
+=========
+Solutions 
+=========
+
+.. toctree::
+   :maxdepth: 2
+
+   exo_numpy_sol
+   exo_graphique_sol
+   exo_fit_sol
+   exo_equadiff_sol
+   exo_fourier_sol
+

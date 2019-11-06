@@ -1,0 +1,195 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Exercises on differential equation &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exercises-on-differential-equation">
+<h1>Exercises on differential equation<a class="headerlink" href="#exercises-on-differential-equation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-pendulum-equation">
+<h2>The pendulum equation<a class="headerlink" href="#the-pendulum-equation" title="Permalink to this headline">¶</a></h2>
+<p>We consider the equation</p>
+<div class="math">
+<p><img src="_images/math/5bd373664ecca4f07f43af221cbe6388449b03b2.png" alt="\theta^{\prime\prime} = -\sin{\theta}"/></p>
+</div><p>Write a function that returns an array containing the position and the angular velocity of the pendulum for <img class="math" src="_images/math/75e27f04188974063be3230dca208cd495b77ce1.png" alt="N"/> instants <img class="math" src="_images/math/64283d3d8caf93093b91aba9a61dbe26b5c18562.png" alt="t_i"/> between 0 and <img class="math" src="_images/math/6d42c88506b8da39a2a23653aecbfb7c29728063.png" alt="T"/>.</p>
+<p>The initial position is <img class="math" src="_images/math/6b14bd9d1417054bb2915d0ee7bf7ff14f1b0cc6.png" alt="\theta=0"/>. Plot the phase space trajectory for different values of the initial velocity. Angle will be represented between -π and π.</p>
+<div class="admonition-solution admonition">
+<p class="first admonition-title">Solution</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="k">import</span> <span class="n">ode</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">yprime</span><span class="o">=</span><span class="n">Y</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">([</span><span class="n">yprime</span><span class="p">,</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">pendule</span><span class="p">(</span><span class="n">theta_0</span><span class="p">,</span> <span class="n">vit_ang</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">ode</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">set_integrator</span><span class="p">(</span><span class="s1">&#39;vode&#39;</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">set_initial_value</span><span class="p">(</span><span class="n">array</span><span class="p">([</span><span class="n">theta_0</span><span class="p">,</span> <span class="n">vit_ang</span><span class="p">]),</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">TT</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="n">theta_0</span><span class="p">,</span> <span class="n">vit_ang</span><span class="p">]]</span> <span class="c1"># Output is a list of list</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">TT</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">(</span><span class="n">output</span><span class="p">)</span> <span class="c1"># This is a 2D array</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">clf</span><span class="p">()</span>
+<span class="n">Tvit_ini</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">61</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">vit_ini</span> <span class="ow">in</span> <span class="n">Tvit_ini</span><span class="p">:</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">pendule</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">vit_ini</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">a</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">pi</span><span class="p">)</span><span class="o">%</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span> <span class="o">-</span> <span class="n">pi</span><span class="p">)</span> <span class="c1"># Tricks to be between -pi and pi</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;+&#39;</span><span class="p">)</span>
+
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">pi</span><span class="p">,</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="solving-the-schrodinger-equation-using-the-finite-element-method">
+<h2>Solving the Schrödinger equation using the finite element method<a class="headerlink" href="#solving-the-schrodinger-equation-using-the-finite-element-method" title="Permalink to this headline">¶</a></h2>
+<p>Let us consider the Schrödinger equation with hbar = m = 1</p>
+<div class="math">
+<p><img src="_images/math/e9ea4a05d12685f705dd3bd55b4b33d533fa2b15.png" alt="\frac{d\psi}{dt} =-i\left( -\frac12 \frac{d^2\psi}{dx^2} + V(x)\psi\right)"/></p>
+</div><p>The potential is <img class="math" src="_images/math/70c210d03ad03a74f57dd132979666107f296470.png" alt="V(x) = \frac12 k x^2"/> with <img class="math" src="_images/math/0a8a54001bf739ae40dfd249b44a51e9a1a7ae73.png" alt="\kappa=.5"/>.</p>
+<p>To solve the equation, we will truncate the x-axis to values between <img class="math" src="_images/math/29c42c82384991895f47fe4a59236dbe7e770e52.png" alt="x_\mathrm{min}"/> and
+<img class="math" src="_images/math/b4390fa280c8c667d619d3ae973efc646e5135f0.png" alt="x_\mathrm{max}"/>. We will also discretize the x-axis with small steps (<img class="math" src="_images/math/98a432864561550105d4de621bc0a9b61068c043.png" alt="\Delta x"/>).</p>
+<p>The term <img class="math" src="_images/math/86e663577603938e003ec9bd8a5258e1191e0b86.png" alt="\frac{d^2\psi}{dx^2}"/> will be approximated using <img class="math" src="_images/math/d1bf2b78f2f1dc569fadc04c7dc94057a24641ac.png" alt="\frac{\psi(x+\Delta x) - 2\psi(x) + \psi(x-\Delta x)}{\Delta x^2}"/>.</p>
+<p>For the initial state, we will take a Gaussian distribution <img class="math" src="_images/math/4f9705d434184b3cda024946bc58d54c9f4442eb.png" alt="e^{-\alpha(x-x_0)^2}"/>. We will use <img class="math" src="_images/math/6ad6e7dff6c16dd2056bfde0e33e84111e77827f.png" alt="\alpha = \frac 12"/> and <img class="math" src="_images/math/829877cc20ab3c752262865d14d5050f4b1c4fa2.png" alt="x_0=1"/>.</p>
+<p>Calculate and plot <img class="math" src="_images/math/b3219449553eab590286c2c6ebebe0dd836863d4.png" alt="|{\psi(x,t)}|^2"/> as a function of <img class="math" src="_images/math/188c175aac0a8a9c22499336711b5d7256407254.png" alt="x"/> for <img class="math" src="_images/math/53b4717d2c3a608f6922715e181927021735fc5e.png" alt="t=1"/> using the <code class="docutils literal notranslate"><span class="pre">zvode</span></code> solver with an absolute precision of  <img class="math" src="_images/math/2378bd4b8206f2f6e6ded41fa70707befbf86bb9.png" alt="10{^-3}"/>.</p>
+<div class="admonition-solution admonition">
+<p class="first admonition-title">Solution</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="k">import</span> <span class="n">ode</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">Deltax</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">X_MIN</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+<span class="n">X_MAX</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="o">.</span><span class="mi">4</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">kappa</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="n">X_MIN</span><span class="p">,</span> <span class="n">X_MAX</span><span class="p">,</span> <span class="p">(</span><span class="n">X_MAX</span><span class="o">-</span><span class="n">X_MIN</span><span class="p">)</span><span class="o">/</span><span class="n">Deltax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">psi_0</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">alpha</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">psi_0</span> <span class="o">=</span> <span class="n">psi_0</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">psi_0</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+
+<span class="n">V</span> <span class="o">=</span> <span class="o">-.</span><span class="mi">5</span><span class="o">*</span><span class="n">kappa</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">psi_dot</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;complex128&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">psi</span><span class="p">):</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="p">(</span><span class="n">psi</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">psi</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">psi</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="n">Deltax</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">pot</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">psi</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">psi_dot</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="p">(</span><span class="n">energy</span> <span class="o">+</span> <span class="n">pot</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">psi_dot</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">ode</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">set_integrator</span><span class="p">(</span><span class="s1">&#39;zvode&#39;</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1E-3</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">set_initial_value</span><span class="p">(</span><span class="n">psi_0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">psi_f</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">psi_f</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Calculate the mean position and relative width.</span>
+<span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">ode</span><span class="p">(</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="n">set_integrator</span><span class="p">(</span><span class="s1">&#39;zvode&#39;</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1E-3</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">set_initial_value</span><span class="p">(</span><span class="n">psi_0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">dT</span> <span class="o">=</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dT</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">t</span><span class="o">&gt;</span><span class="n">r</span><span class="o">.</span><span class="n">t</span><span class="p">:</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="n">i</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">mean</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Exercises on differential equation</a><ul>
+<li><a class="reference internal" href="#the-pendulum-equation">The pendulum equation</a></li>
+<li><a class="reference internal" href="#solving-the-schrodinger-equation-using-the-finite-element-method">Solving the Schrödinger equation using the finite element method</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exo_equadiff_sol.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+
+Pauli matrices
+==============
+
+The wikipedia `http://en.wikipedia.org/wiki/Pauli_matrices <http://en.wikipedia.org/wiki/Pauli_matrices>`_ page will remember you what the Pauli matrices are. 
+
+In quantum mechanics, Hamiltonian of a two level system can be described using a linear combination of Pauli matrices (vector part) and the Id matrice (scalar part). 
+
+1. Create a class that can be used to describe such a linear combination
+
+2. Implements addition, substraction and multiplication
+
+3. Implements the exponential (we can create an __exp__ method of the object and modify the function acordingly).
+
+
+The answer of the first question is : ::
+
+    class PauliMatrices(object):
+        def __init__(self, scalar, vector=(0,0,0)):
+            self.scalar = scalar
+            self.vector = np.array(vector)
+
+        def __str__(self):
+            out = ''
+            if abs(self.scalar)!=0:
+                out+='{0:+}Id '.format(self.scalar)
+            for i,elm in enumerate(['x','y','z']):
+                if self.vector[i]!=0:
+                    if isinstance(self.vector[i], numbers.Complex)\
+                                             and out!='':
+                        out += '+ '
+                    out+='{0:+}*σ{elm} '.format(self.vector[i], elm=elm)
+            return out
+
+
+The __str__ method could be improved. 
+
+
+
+Data analysis
+=============
+
+The idea is to create a class used for data analysis. In this example we will use simple linea regression : the experimental data :math:`x` and :math:`y` will be fitted by the function :math:`y = ax + b`. 
+
+In order to calculate the value of a and b we use the following : ::
+
+        det = ((x - x.mean())**2).mean()        
+        a = ((x*y).mean() - x.mean()*y.mean() )/det
+        b = y.mean() - a*x.mean()
+
+1. This class should be able to give the value of `a` and `b` but also to plot the data with the fit function. Furthermore, you should be possible to subclass the class to customize the default plot parameters such as the title, markers or label.
+
+2. Rewrite your code in order to separate what is generic to any linear regression and to first order regression. Now write three classes : Regression, FirstOrderRegression and SecondOrderRegression
+
+3. A linear regression is a fit by a function like : 
+
+.. math::
+
+    f(x) = p_0f_0(x) + p_1f_1(x) + ... + p_nf_n(x)
+
+One can find on wikipedia the formula to obtain the :math:`p_i` from x and y.
+
+Write a GenericRegression class such that one can customize the function using, for example, the following code : ::
+
+    class MyRegression(GenericRegression):
+        reression_order = 2
+        @staticmethod
+        def fit_function(x, p):
+            return p[0] + p[1]*x + p[2]*exp(-x)
+
+The ``@staticmethod`` decorator is used to specify that the fit_function is a data attribute and not a method (its first parameter should not be replaced by the instance).
+
+

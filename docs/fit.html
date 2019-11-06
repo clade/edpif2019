@@ -1,0 +1,213 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Data fitting &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Differential equation" href="equadiff.html" />
+    <link rel="prev" title="Graphics in Python" href="graphique.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="equadiff.html" title="Differential equation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="graphique.html" title="Graphics in Python"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_numpy.html" accesskey="U">Numerical calculation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="data-fitting">
+<h1>Data fitting<a class="headerlink" href="#data-fitting" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">scipy.optimize</span></code> module contains function that can be used to perform data fitting.</p>
+<p>The easiest function to use is the curve_fit function. Below is the documentation of the function.</p>
+<div class="section" id="curve-fit">
+<h2>curve_fit<a class="headerlink" href="#curve-fit" title="Permalink to this headline">¶</a></h2>
+<p>Use non-linear least squares to fit a function, f, to data.</p>
+<p>Assumes <code class="docutils literal notranslate"><span class="pre">ydata</span> <span class="pre">=</span> <span class="pre">f(xdata,</span> <span class="pre">*params)</span> <span class="pre">+</span> <span class="pre">eps</span></code></p>
+<div class="section" id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>f <span class="classifier-delimiter">:</span> <span class="classifier">callable</span></dt>
+<dd>The model function, f(x, …).  It must take the independent
+variable as the first argument and the parameters to fit as
+separate remaining arguments.</dd>
+<dt>xdata <span class="classifier-delimiter">:</span> <span class="classifier">An N-length sequence or an (k,N)-shaped array</span></dt>
+<dd>for functions with k predictors.
+The independent variable where the data is measured.</dd>
+<dt>ydata <span class="classifier-delimiter">:</span> <span class="classifier">N-length sequence</span></dt>
+<dd>The dependent data — nominally f(xdata, …)</dd>
+<dt>p0 <span class="classifier-delimiter">:</span> <span class="classifier">None, scalar, or M-length sequence</span></dt>
+<dd>Initial guess for the parameters.  If None, then the initial
+values will all be 1 (if the number of parameters for the function
+can be determined using introspection, otherwise a ValueError
+is raised).</dd>
+<dt>sigma <span class="classifier-delimiter">:</span> <span class="classifier">None or N-length sequence</span></dt>
+<dd>If not None, it represents the standard-deviation of ydata.
+This vector, if given, will be used as weights in the
+least-squares problem.</dd>
+</dl>
+</div>
+<div class="section" id="returns">
+<h3>Returns<a class="headerlink" href="#returns" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>popt <span class="classifier-delimiter">:</span> <span class="classifier">array</span></dt>
+<dd>Optimal values for the parameters so that the sum of the squared error
+of <code class="docutils literal notranslate"><span class="pre">f(xdata,</span> <span class="pre">*popt)</span> <span class="pre">-</span> <span class="pre">ydata</span></code> is minimized</dd>
+<dt>pcov <span class="classifier-delimiter">:</span> <span class="classifier">2d array</span></dt>
+<dd>The estimated covariance of popt.  The diagonals provide the variance
+of the parameter estimate.</dd>
+</dl>
+</div>
+<div class="section" id="notes">
+<h3>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h3>
+<p>The algorithm uses the Levenburg-Marquardt algorithm:
+scipy.optimize.leastsq. Additional keyword arguments are passed directly
+to that algorithm.</p>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">curve_fit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">yn</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">yn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fitting-image">
+<h2>Fitting image<a class="headerlink" href="#fitting-image" title="Permalink to this headline">¶</a></h2>
+<p>The curve_fit function described above is used to minimize the following :</p>
+<div class="math">
+<p><img src="_images/math/642acfdf12e33b82bba35afda89c46e80b002e1e.png" alt="\sum_i (f(x_i, p_0, p_1, ...) - y_i)^2"/></p>
+</div><p>Indeed, it assumes that <code class="docutils literal notranslate"><span class="pre">f(x[i],</span> <span class="pre">...)</span> <span class="pre">=</span> <span class="pre">f(x,</span> <span class="pre">...)[i]</span></code> and uses the second method. Therefore,
+as long as the function <code class="docutils literal notranslate"><span class="pre">func</span></code> returns a 1D array, the <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> will return the optimal parameters that minimize the sum. The parameter <code class="docutils literal notranslate"><span class="pre">x</span></code> does not have to be a 1D array.</p>
+<p>In order to fit pictures (2D array), one has to flatten the image array and creates the corresponding x and y coordinate. This can be done using the following code :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># image is a 2D array</span>
+<span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">))</span>
+<span class="c1"># two column matrices with X and Y</span>
+<span class="n">XY</span> <span class="o">=</span> <span class="n">array</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()])</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The XY array can be passed as the first parameter of the fit function. The fit function should then extract the corresponding x and y coordinates. For example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gauss</span><span class="p">(</span><span class="n">XY</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">,</span> <span class="n">diameter</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">XY</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">XY</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">amplitude</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">center_x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">center_y</span><span class="p">))</span><span class="o">/</span><span class="n">diameter</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">gauss</span><span class="p">,</span> <span class="n">XY</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">p0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note also that, because we have flattened the 2D array, you can select the points for your fit without keeping a matrix like structure. The following example will perform the fit only for points in the image with a positive intensity.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fimage</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">condition</span> <span class="o">=</span> <span class="n">fimage</span><span class="o">&gt;</span><span class="mi">0</span>
+<span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">gauss</span><span class="p">,</span> <span class="n">XY</span><span class="p">[</span><span class="n">condition</span><span class="p">,</span> <span class="p">:],</span> <span class="n">fimage</span><span class="p">[</span><span class="n">condition</span><span class="p">],</span> <span class="n">p0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Data fitting</a><ul>
+<li><a class="reference internal" href="#curve-fit">curve_fit</a><ul>
+<li><a class="reference internal" href="#parameters">Parameters</a></li>
+<li><a class="reference internal" href="#returns">Returns</a></li>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fitting-image">Fitting image</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="graphique.html"
+                        title="previous chapter">Graphics in Python</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="equadiff.html"
+                        title="next chapter">Differential equation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/fit.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="equadiff.html" title="Differential equation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="graphique.html" title="Graphics in Python"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_numpy.html" >Numerical calculation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

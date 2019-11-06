@@ -1,0 +1,152 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Fourier analysis &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Object oriented programming" href="index_oo.html" />
+    <link rel="prev" title="Differential equation" href="equadiff.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index_oo.html" title="Object oriented programming"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="equadiff.html" title="Differential equation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_numpy.html" accesskey="U">Numerical calculation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fourier-analysis">
+<h1>Fourier analysis<a class="headerlink" href="#fourier-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="formulas">
+<h2>Formulas<a class="headerlink" href="#formulas" title="Permalink to this headline">¶</a></h2>
+<p>Usefull formulae for the Fourier transform</p>
+<ul>
+<li><p class="first">Continuous Fourier transform</p>
+<div class="math">
+<p><img src="_images/math/17a576dd8ceeb274b2d74777f8d93a65527522aa.png" alt="\tilde{f}(\omega) = \int_{-\infty}^\infty f(t)e^{-i\omega t}\mathrm dt"/></p>
+</div></li>
+<li><p class="first">Inverse Fourier transform</p>
+<div class="math">
+<p><img src="_images/math/854ec4aa6a99c8644dba512f3f098c102902225f.png" alt="f(t) = \frac1{2\pi}\int_{-\infty}^\infty \tilde f(\omega)e^{+i\omega t}\mathrm dt"/></p>
+</div></li>
+<li><p class="first">Discrete Fourier transform</p>
+<div class="math">
+<p><img src="_images/math/20bd14c72254a6ddbbd6f84594add5dbf50becbb.png" alt="\tilde{x}_k = \sum_{i=0}^Nx_je^{2i\pi\frac{kj}N}"/></p>
+</div><p>This is the formula used by computers.</p>
+</li>
+<li><p class="first">Link between discrete Fourier transform and continuous Fourier transform :</p>
+<div class="math">
+<p><img src="_images/math/4036a67e46294a73508bec11f37484b59de9392a.png" alt="\tilde x_k = \sum x_je^{2i\pi(j\Delta\!t)\frac k{N\Delta\!t}} =
+\frac 1{\Delta\!t} \sum f(t_j) e^{2i\pi t_j \frac kT}\Delta\!t =
+\frac 1{\Delta\!t}\tilde f\left(\frac kT\right)"/></p>
+</div><p>With this formula you can get the correct scale for the x and y axis.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="fft">
+<h2>FFT<a class="headerlink" href="#fft" title="Permalink to this headline">¶</a></h2>
+<p>The algorithm used to perform the discrete fourier transform is called the fast Fourier transform (FFT). This algorithm is efficient when the array can be recursively splitted in a small numberof arrays of the same size. It is therefore very efficient when the size of the array is a power of two. In this case the complexity will be in <img class="math" src="_images/math/bc36337eed0edd76d85cc286792f3008de130276.png" alt="O(n\log n)"/> where <img class="math" src="_images/math/413f8a8e40062a9090d9d50b88bc7b551b314c26.png" alt="n"/> is the size of the array. This algorithm is inefficient if the size of the array has large integer in his factorization. For example :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">rand</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">17</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">fft</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># about 4.5 ms</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">17</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># 2**17-1 is a prime number</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="n">fft</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># about 52 s</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Fourier analysis</a><ul>
+<li><a class="reference internal" href="#formulas">Formulas</a></li>
+<li><a class="reference internal" href="#fft">FFT</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="equadiff.html"
+                        title="previous chapter">Differential equation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="index_oo.html"
+                        title="next chapter">Object oriented programming</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/fourier.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index_oo.html" title="Object oriented programming"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="equadiff.html" title="Differential equation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_numpy.html" >Numerical calculation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Pauli matrices &#8212; Python for scientists 1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Object oriented programming" href="object_oriented_programming.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="object_oriented_programming.html" title="Object oriented programming"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_oo.html" accesskey="U">Object oriented programming</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pauli-matrices">
+<h1>Pauli matrices<a class="headerlink" href="#pauli-matrices" title="Permalink to this headline">¶</a></h1>
+<p>The wikipedia <a class="reference external" href="http://en.wikipedia.org/wiki/Pauli_matrices">http://en.wikipedia.org/wiki/Pauli_matrices</a> page will remember you what the Pauli matrices are.</p>
+<p>In quantum mechanics, Hamiltonian of a two level system can be described using a linear combination of Pauli matrices (vector part) and the Id matrice (scalar part).</p>
+<ol class="arabic simple">
+<li>Create a class that can be used to describe such a linear combination</li>
+<li>Implements addition, substraction and multiplication</li>
+<li>Implements the exponential (we can create an __exp__ method of the object and modify the function acordingly).</li>
+</ol>
+<p>The answer of the first question is :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PauliMatrices</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">,</span> <span class="n">vector</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scalar</span> <span class="o">=</span> <span class="n">scalar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vector</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">+=</span><span class="s1">&#39;</span><span class="si">{0:+}</span><span class="s1">Id &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scalar</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">elm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Complex</span><span class="p">)</span>\
+                                         <span class="ow">and</span> <span class="n">out</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">+=</span> <span class="s1">&#39;+ &#39;</span>
+                <span class="n">out</span><span class="o">+=</span><span class="s1">&#39;</span><span class="si">{0:+}</span><span class="s1">*σ</span><span class="si">{elm}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vector</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">elm</span><span class="o">=</span><span class="n">elm</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+<p>The __str__ method could be improved.</p>
+</div>
+<div class="section" id="data-analysis">
+<h1>Data analysis<a class="headerlink" href="#data-analysis" title="Permalink to this headline">¶</a></h1>
+<p>The idea is to create a class used for data analysis. In this example we will use simple linea regression : the experimental data <img class="math" src="_images/math/188c175aac0a8a9c22499336711b5d7256407254.png" alt="x"/> and <img class="math" src="_images/math/b124ff74afb0914bb434e8fb849eb56d734412f8.png" alt="y"/> will be fitted by the function <img class="math" src="_images/math/77f977db05b7516d15849deeb446ad4299ee21f8.png" alt="y = ax + b"/>.</p>
+<p>In order to calculate the value of a and b we use the following :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">det</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">*</span><span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="p">)</span><span class="o">/</span><span class="n">det</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li>This class should be able to give the value of <cite>a</cite> and <cite>b</cite> but also to plot the data with the fit function. Furthermore, you should be possible to subclass the class to customize the default plot parameters such as the title, markers or label.</li>
+<li>Rewrite your code in order to separate what is generic to any linear regression and to first order regression. Now write three classes : Regression, FirstOrderRegression and SecondOrderRegression</li>
+<li>A linear regression is a fit by a function like :</li>
+</ol>
+<div class="math">
+<p><img src="_images/math/0a944a167fd8737f07c8a56dee0a6c3ad5b56c2e.png" alt="f(x) = p_0f_0(x) + p_1f_1(x) + ... + p_nf_n(x)"/></p>
+</div><p>One can find on wikipedia the formula to obtain the <img class="math" src="_images/math/be005a6163eb06f81800d3f41ee8408927fec9d7.png" alt="p_i"/> from x and y.</p>
+<p>Write a GenericRegression class such that one can customize the function using, for example, the following code :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyRegression</span><span class="p">(</span><span class="n">GenericRegression</span><span class="p">):</span>
+    <span class="n">reression_order</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fit_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&#64;staticmethod</span></code> decorator is used to specify that the fit_function is a data attribute and not a method (its first parameter should not be replaced by the instance).</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Pauli matrices</a></li>
+<li><a class="reference internal" href="#data-analysis">Data analysis</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="object_oriented_programming.html"
+                        title="previous chapter">Object oriented programming</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/exo_oo.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="object_oriented_programming.html" title="Object oriented programming"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Python for scientists 1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index_oo.html" >Object oriented programming</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2014, Pierre Cladé.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

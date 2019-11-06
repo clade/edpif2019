@@ -1,0 +1,31 @@
+
+Exercises on fit
+================
+
+Fit of inteference fringes
+--------------------------
+
+We would like to fit the fringes from an atom interferometer. The data are in the file (:download:`data/fit_sinus.dat <data/fit_sinus.dat>`). The first column of the file (x axis) represents a frequency in Hz. The second column (y axis) represents the population measured for the given frequency. The goal is to find the position of the central fringe. 
+
+The fit function is a cosine function with adjustable offset, amplitude, position and width. 
+
+* Load and plot the data. 
+
+* Write the fit function called ``fringe(x, ....)`` 
+
+* Find the initial parameter for the fit. 
+
+* Calculate the optimal parameters
+
+* What is the position and uncertainty of the central fringe ?
+
+
+
+Fit of a picture
+----------------
+
+We have a 64x64 picture of a double star. Using the example given in the lecture, fit the picture by the sum of two gaussians and get the distance between the two stars.
+
+Data are in the file (:download:`data/double_star <data/double_star.txt>`).
+
+
