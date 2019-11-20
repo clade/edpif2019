@@ -1,0 +1,1 @@
+print('INIT MY PACKAGE')
